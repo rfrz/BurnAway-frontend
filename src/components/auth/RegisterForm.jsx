@@ -40,7 +40,7 @@ export default function RegisterForm() {
       </div>
       <button 
         type="button"
-        className="w-full mt-4 bg-sky-950 text-white font-bold py-3 rounded-lg hover:bg-sky-900 transition-colors"
+        className="w-full mt-4 bg-sky-600 text-white font-bold py-3 rounded-lg hover:bg-sky-900 transition-colors"
       >
         Daftar
       </button>
