@@ -6,7 +6,8 @@ import CategoryChart from '../components/dashboard/CategoryChart'
 
 export default function Dashboard() {
   return (
-    <div className="w-full min-h-screen bg-slate-50 py-8 px-4 sm:px-6 md:px-8">
+    <div className="w-full min-h-screen bg-slate-50 dark:bg-[#0f172a] py-8 px-4 sm:px-6 md:px-8 transition-colors duration-300">
+      
       {/* Container Utama dengan Batas Maksimal Lebar Layar */}
       <div className="max-w-7xl mx-auto flex flex-col gap-6">
         
