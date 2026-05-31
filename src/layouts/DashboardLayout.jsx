@@ -57,7 +57,7 @@ export default function DashboardLayout() {
         `}
       >
         {/* Sidebar Header */}
-        <div className={`h-20 flex items-center border-b border-slate-200 dark:border-slate-800 shrink-0 ${isCollapsed ? 'justify-end px-4' : 'justify-between px-6'}`}>
+        <div className={`h-20 flex items-center border-b border-slate-200 dark:border-slate-800 shrink-0 ${isCollapsed ? 'justify-center px-4' : 'justify-between px-6'}`}>
           {!isCollapsed && (
             <Link to="/dashboard" className="flex items-center gap-3 overflow-hidden">
               <img
@@ -98,10 +98,10 @@ export default function DashboardLayout() {
                   isActive 
                     ? 'bg-brand text-white shadow-md shadow-brand/20 font-bold' 
                     : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 font-medium'
-                }`}
+                } ${isCollapsed ? 'justify-center' : ''}`}
                 title={isCollapsed ? item.label : undefined}
               >
-                <i className={`fa-solid ${item.icon} text-lg ${isCollapsed ? 'mx-auto' : ''} ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-brand'}`}></i>
+                <i className={`fa-solid ${item.icon} w-5 shrink-0 text-center text-lg ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-brand'}`}></i>
                 {!isCollapsed && <span className="whitespace-nowrap">{item.label}</span>}
               </Link>
             );
