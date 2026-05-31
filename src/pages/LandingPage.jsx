@@ -6,6 +6,17 @@ import { useAuth } from '../hooks/useAuth.js'
 export default function LandingPage() {
   const { t } = useLanguage()
   const { isAuthenticated } = useAuth()
+  const features = [
+    { icon: 'fa-brain', title: t('landing.features.predictive_title'), desc: t('landing.features.predictive_desc') },
+    { icon: 'fa-shield-heart', title: t('landing.features.privacy_title'), desc: t('landing.features.privacy_desc') },
+    { icon: 'fa-bolt', title: t('landing.features.recovery_title'), desc: t('landing.features.recovery_desc') }
+  ]
+  const steps = [
+    t('landing.steps.metrics'),
+    t('landing.steps.analysis'),
+    t('landing.steps.prediction'),
+    t('landing.steps.recovery')
+  ]
 
   return (
     // Pembungkus utama halaman
@@ -31,7 +42,7 @@ export default function LandingPage() {
             <div className="flex gap-4">
               {isAuthenticated ? (
                 <Link to="/dashboard" className="bg-[#23b1f5] text-white dark:bg-[#23b1f5] dark:text-slate-950 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-lg">
-                  {t('nav.dashboard') || 'Dashboard'}
+                  {t('nav.dashboard')}
                 </Link>
               ) : (
                 <Link to="/register" className="bg-[#23b1f5] text-white dark:bg-[#23b1f5] dark:text-slate-950 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-lg">
@@ -39,7 +50,7 @@ export default function LandingPage() {
                 </Link>
               )}
               <a href="#how" className="border border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all">
-                How it Works
+                {t('landing.how_button')}
               </a>
             </div>
           </div>
@@ -58,13 +69,9 @@ export default function LandingPage() {
       {/* 3. Features Section */}
       <section id="features" className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-16 text-center">Built for High Stakes</h2>
+          <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-16 text-center">{t('landing.features_title')}</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { icon: 'fa-brain', title: 'Predictive Analysis', desc: 'Predicting future burnout risk using historical sleep and stress trends.' },
-              { icon: 'fa-shield-heart', title: 'Privacy First', desc: 'Your mental health data is encrypted and remains under your total control.' },
-              { icon: 'fa-bolt', title: 'Instant Recovery', desc: 'Actionable micro-interventions to reset your nervous system in minutes.' }
-            ].map((f, i) => (
+            {features.map((f, i) => (
               <div key={i} className="group p-10 bg-white dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/50 rounded-3xl hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm dark:shadow-none transition-all hover:-translate-y-2">
                 <div className="w-14 h-14 bg-[#98deff]/30 dark:bg-[#23b1f5]/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#23b1f5] dark:group-hover:bg-[#23b1f5] transition-colors">
                   <i className={`fa-solid ${f.icon} text-[#23b1f5] dark:text-[#23b1f5] text-2xl group-hover:text-white dark:group-hover:text-slate-950`}></i>
@@ -80,9 +87,9 @@ export default function LandingPage() {
       {/* 4. How it Works */}
       <section id="how" className="py-24 bg-[#23b1f5] dark:bg-[#23b1f5] text-white dark:text-slate-950 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-5xl font-black mb-16 text-center uppercase tracking-tighter">How BurnAway Works</h2>
+          <h2 className="text-5xl font-black mb-16 text-center uppercase tracking-tighter">{t('landing.how_title')}</h2>
           <div className="grid md:grid-cols-4 gap-12 text-center">
-            {['Log Daily Metrics', 'AI Signal Analysis', 'Burnout Prediction', 'Guided Recovery'].map((step, i) => (
+            {steps.map((step, i) => (
               <div key={i} className="relative">
                 <div className="text-8xl font-black opacity-20 mb-4">0{i+1}</div>
                 <h3 className="text-xl font-bold mb-2">{step}</h3>
@@ -109,18 +116,18 @@ export default function LandingPage() {
          />
         </div>
           <div>
-            <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">Bridging Data & Humanity</h2>
+            <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">{t('landing.about_title')}</h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-              BurnAway lahir dari kebutuhan akan sistem pendukung performa yang berkelanjutan. 
+              {t('landing.about_body')}
             </p>
-            <p className="text-[#23b1f5] dark:text-[#23b1f5] font-bold">— The BurnAway Founding Team</p>
+            <p className="text-[#23b1f5] dark:text-[#23b1f5] font-bold">- {t('landing.about_team')}</p>
           </div>
         </div>
       </section>
 
       {/* 6. Footer */}
       <footer className="py-12 border-t border-slate-200 dark:border-slate-800 text-center text-slate-500">
-        <p>© 2026 BurnAway Project. Empathetic Intelligence for Excellence.</p>
+        <p>&copy; {t('landing.footer')}</p>
       </footer>
     </div>
   )

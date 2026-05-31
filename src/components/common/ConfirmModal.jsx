@@ -1,14 +1,19 @@
+import { useLanguage } from '../../hooks/useLanguage.js'
+
 export default function ConfirmModal({ 
   isOpen, 
   onClose, 
   onConfirm, 
   title, 
   message, 
-  confirmText = 'Hapus', 
-  cancelText = 'Batal', 
+  confirmText, 
+  cancelText, 
   isDestructive = true 
 }) {
+  const { t } = useLanguage()
   if (!isOpen) return null;
+  const resolvedConfirmText = confirmText || t('modal.confirm_delete')
+  const resolvedCancelText = cancelText || t('modal.cancel')
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
@@ -21,7 +26,7 @@ export default function ConfirmModal({
             onClick={onClose}
             className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium transition-colors"
           >
-            {cancelText}
+            {resolvedCancelText}
           </button>
           <button 
             onClick={() => {
@@ -34,7 +39,7 @@ export default function ConfirmModal({
                 : 'bg-brand hover:bg-brand-hover'
             }`}
           >
-            {confirmText}
+            {resolvedConfirmText}
           </button>
         </div>
       </div>

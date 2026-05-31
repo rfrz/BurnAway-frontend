@@ -40,7 +40,7 @@ export default function RegisterForm() {
     if (result.success) {
       navigate('/dashboard')
     } else {
-      setError(result.error)
+      setError(result.error || t('errors.register_failed'))
     }
   }
 
@@ -80,17 +80,17 @@ export default function RegisterForm() {
         </div>
       )}
 
-      {renderInput('username', 'Username', 'text', 'Masukkan username', 'fa-user')}
-      {renderInput('email', 'Email', 'email', 'Masukkan email', 'fa-envelope')}
+      {renderInput('username', t('auth.username'), 'text', t('auth.username_placeholder'), 'fa-user')}
+      {renderInput('email', t('auth.email'), 'email', t('auth.email_placeholder'), 'fa-envelope')}
       
       <div className="grid grid-cols-2 gap-4">
-        {renderInput('birth_date', 'Tanggal Lahir', 'date', '', 'fa-calendar', '1900-01-01', new Date().toISOString().split('T')[0])}
-        {renderInput('experience_years', 'Pengalaman (Thn)', 'number', '0', 'fa-briefcase', '0', '80')}
+        {renderInput('birth_date', t('auth.birth_date'), 'date', '', 'fa-calendar', '1900-01-01', new Date().toISOString().split('T')[0])}
+        {renderInput('experience_years', t('auth.experience_years'), 'number', '0', 'fa-briefcase', '0', '80')}
       </div>
       
       <div>
         <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block transition-colors">
-          Password
+          {t('auth.password')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
@@ -101,7 +101,7 @@ export default function RegisterForm() {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder="Buat password" 
+            placeholder={t('auth.password_create_placeholder')} 
             required 
             minLength={8}
             className={`w-full pl-11 pr-12 py-3 rounded-xl border bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 outline-none transition-all ${error ? 'form-input-error' : 'border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-brand dark:focus:ring-brand/50'}`}

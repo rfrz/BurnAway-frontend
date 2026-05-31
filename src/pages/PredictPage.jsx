@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import MetricForm from '../components/predict/MetricForm'
 import ResultCard from '../components/predict/ResultCard'
 import api from '../services/api'
+import { useLanguage } from '../hooks/useLanguage.js'
 
 export default function PredictPage() {
+  const { t } = useLanguage()
   const [formData, setFormData] = useState({
     daily_work_hours: '',
     sleep_hours: '',
@@ -36,7 +38,7 @@ export default function PredictPage() {
       setPredictionData(response)
     } catch (err) {
       console.error(err)
-      setError(err.message || 'Gagal membuat prediksi.')
+      setError(err.message || t('predict.create_error'))
     } finally {
       setIsLoading(false)
     }
@@ -64,14 +66,14 @@ export default function PredictPage() {
         {/* Header Navigation */}
         <div className="flex justify-between items-center mb-8 pb-6 border-b border-slate-200 dark:border-slate-800">
             <Link to="/dashboard" className="text-slate-500 hover:text-brand font-semibold transition-colors flex items-center gap-2">
-              <i className="fa-solid fa-arrow-left"></i> Kembali ke Dashboard
+              <i className="fa-solid fa-arrow-left"></i> {t('common.back_dashboard')}
             </Link>
             <div className="text-right">
               <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
-                Analisis Burnout
+                {t('predict.title')}
               </h1>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Masukkan metrik harianmu untuk evaluasi.
+                {t('predict.subtitle')}
               </p>
             </div>
         </div>

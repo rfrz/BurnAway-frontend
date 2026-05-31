@@ -15,9 +15,9 @@ export default function DashboardLayout() {
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   const navItems = [
-    { path: '/dashboard', icon: 'fa-chart-pie', label: t('nav.dashboard') || 'Dasbor' },
-    { path: '/predict', icon: 'fa-wand-magic-sparkles', label: t('nav.predict') || 'Prediksi Baru' },
-    { path: '/history', icon: 'fa-clipboard-list', label: t('nav.history') || 'Riwayat' }
+    { path: '/dashboard', icon: 'fa-chart-pie', label: t('nav.dashboard') },
+    { path: '/predict', icon: 'fa-wand-magic-sparkles', label: t('nav.predict') },
+    { path: '/history', icon: 'fa-clipboard-list', label: t('nav.history') }
   ];
 
   const languages = [
@@ -32,9 +32,9 @@ export default function DashboardLayout() {
   };
 
   const getThemeLabel = () => {
-    if (theme === 'light') return 'Terang';
-    if (theme === 'dark') return 'Gelap';
-    return 'Sistem';
+    if (theme === 'light') return t('theme.light');
+    if (theme === 'dark') return t('theme.dark');
+    return t('theme.system');
   };
 
   const initial = user?.username ? user.username.charAt(0).toUpperCase() : 'U';
@@ -82,6 +82,7 @@ export default function DashboardLayout() {
           <button 
             className="lg:hidden w-8 h-8 flex items-center justify-center text-slate-400"
             onClick={() => setIsMobileOpen(false)}
+            aria-label={t('common.close_menu')}
           >
             <i className="fa-solid fa-xmark"></i>
           </button>
@@ -119,7 +120,7 @@ export default function DashboardLayout() {
             <button 
               onClick={toggleTheme}
               className={`flex items-center justify-center h-10 text-slate-600 dark:text-slate-300 hover:text-brand transition-colors cursor-pointer ${isCollapsed ? 'w-10' : 'flex-1 gap-2'}`}
-              title="Ganti Tema"
+              title={t('theme.change')}
             >
               <i className={`fa-solid ${getThemeIcon()}`}></i>
               {!isCollapsed && <span className="text-sm font-semibold">{getThemeLabel()}</span>}
@@ -130,7 +131,7 @@ export default function DashboardLayout() {
                 type="button"
                 onClick={() => setShowLanguageMenu(!showLanguageMenu)}
                 className={`flex h-10 w-full items-center justify-center text-slate-600 dark:text-slate-300 hover:text-brand transition-colors cursor-pointer ${isCollapsed ? '' : 'gap-2'}`}
-                title="Ganti Bahasa"
+                title={t('common.language_title')}
                 aria-haspopup="listbox"
                 aria-expanded={showLanguageMenu}
               >
@@ -182,7 +183,7 @@ export default function DashboardLayout() {
               </div>
               {!isCollapsed && (
                 <div className="flex-1 text-left overflow-hidden">
-                  <div className="text-sm font-bold text-slate-900 dark:text-white truncate">{user?.username || 'User'}</div>
+                  <div className="text-sm font-bold text-slate-900 dark:text-white truncate">{user?.username || t('common.default_user')}</div>
                   <div className="text-xs text-slate-500 truncate">{user?.email || ''}</div>
                 </div>
               )}
@@ -199,7 +200,7 @@ export default function DashboardLayout() {
                     className="flex items-center gap-3 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
                   >
                     <i className="fa-solid fa-user text-slate-400"></i>
-                    {t('nav.profile') || 'Profil'}
+                    {t('nav.profile')}
                   </Link>
                   <button 
                     onClick={() => {
@@ -209,7 +210,7 @@ export default function DashboardLayout() {
                     className="w-full flex items-center gap-3 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors text-left"
                   >
                     <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                    {t('nav.logout') || 'Keluar'}
+                    {t('nav.logout')}
                   </button>
                 </div>
               </>
@@ -226,7 +227,7 @@ export default function DashboardLayout() {
           <button 
             className="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 shrink-0"
             onClick={() => setIsMobileOpen(true)}
-            aria-label="Buka menu"
+            aria-label={t('common.open_menu')}
           >
             <i className="fa-solid fa-bars text-xl"></i>
           </button>

@@ -18,6 +18,11 @@ export const normalizeBurnoutLevel = (level) => {
   }
 }
 
+export const getBurnoutLevelKey = (level) => {
+  const normalizedLevel = normalizeBurnoutLevel(level).toLowerCase()
+  return ['low', 'medium', 'high'].includes(normalizedLevel) ? normalizedLevel : 'unknown'
+}
+
 export const normalizePrediction = (item) => {
   const payload = unwrapPredictionPayload(item)
   if (!payload) return null

@@ -1,7 +1,9 @@
 import { useTheme } from '../hooks/useTheme.js'
+import { useLanguage } from '../hooks/useLanguage.js'
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme()
+  const { t } = useLanguage()
 
   const getIcon = () => {
     if (theme === 'light') return 'fa-sun';
@@ -10,9 +12,9 @@ export default function ThemeToggle() {
   };
 
   const getTitle = () => {
-    if (theme === 'light') return 'Mode Terang (Klik untuk Gelap)';
-    if (theme === 'dark') return 'Mode Gelap (Klik untuk Sistem)';
-    return 'Ikut Sistem (Klik untuk Terang)';
+    if (theme === 'light') return t('theme.title_light');
+    if (theme === 'dark') return t('theme.title_dark');
+    return t('theme.title_system');
   };
 
   return (

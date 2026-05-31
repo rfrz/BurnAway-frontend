@@ -3,10 +3,12 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import api from '../services/api'
 import ResultCard from '../components/predict/ResultCard'
 import ConfirmModal from '../components/common/ConfirmModal'
+import { useLanguage } from '../hooks/useLanguage.js'
 
 export default function PredictionDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { t, localeCode } = useLanguage()
   const [prediction, setPrediction] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
@@ -18,20 +20,20 @@ export default function PredictionDetailPage() {
         const data = await api.getPrediction(id)
         setPrediction(data)
       } catch {
-        setError('Detail prediksi tidak ditemukan.')
+        setError(t('history.detail_missing'))
       } finally {
         setIsLoading(false)
       }
     }
     fetchDetail()
-  }, [id])
+  }, [id, t])
 
   const handleDelete = async () => {
     try {
       await api.deletePrediction(id)
       navigate('/history')
     } catch {
-      alert('Gagal menghapus prediksi.')
+      alert(t('history.delete_error'))
     }
   }
 
@@ -47,7 +49,7 @@ export default function PredictionDetailPage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
         <p className="text-red-500 font-bold">{error}</p>
-        <Link to="/history" className="text-brand hover:underline">Kembali ke Riwayat</Link>
+        <Link to="/history" className="text-brand hover:underline">{t('common.back_history')}</Link>
       </div>
     )
   }
@@ -57,23 +59,23 @@ export default function PredictionDetailPage() {
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8 pb-6 border-b border-slate-200 dark:border-slate-800">
           <Link to="/history" className="text-slate-500 hover:text-brand font-semibold transition-colors flex items-center gap-2">
-            <i className="fa-solid fa-arrow-left"></i> Kembali ke Riwayat
+            <i className="fa-solid fa-arrow-left"></i> {t('common.back_history')}
           </Link>
           <div className="flex gap-2">
             <button 
               onClick={() => setIsDeleteModalOpen(true)}
               className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 font-bold py-2 px-4 rounded-lg transition-colors border border-red-200 dark:border-red-500/30 flex items-center gap-2 text-sm"
             >
-              <i className="fa-solid fa-trash"></i> Hapus
+              <i className="fa-solid fa-trash"></i> {t('common.delete')}
             </button>
           </div>
         </div>
 
         <div className="mb-6 text-center">
           <p className="text-slate-500 font-medium">
-            Dianalisis pada: {new Date(prediction.created_at).toLocaleDateString('id-ID', {
+            {t('history.analyzed_at', { date: new Date(prediction.created_at).toLocaleDateString(localeCode, {
               weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
-            })}
+            }) })}
           </p>
         </div>
 
@@ -86,8 +88,8 @@ export default function PredictionDetailPage() {
           isOpen={isDeleteModalOpen}
           onClose={() => setIsDeleteModalOpen(false)}
           onConfirm={handleDelete}
-          title="Hapus Prediksi"
-          message="Apakah Anda yakin ingin menghapus data prediksi ini? Data yang sudah dihapus tidak dapat dipulihkan."
+          title={t('history.delete_prediction_title')}
+          message={t('history.modal_message')}
         />
       </div>
     </div>

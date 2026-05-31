@@ -1,11 +1,12 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { useTheme } from '../../hooks/useTheme.js'
+import { useLanguage } from '../../hooks/useLanguage.js'
 import { normalizeBurnoutLevel } from '../../utils/prediction'
 
 const LEVELS = [
-  { name: 'Low', label: 'Aman', color: '#10b981' },
-  { name: 'Medium', label: 'Sedang', color: '#f59e0b' },
-  { name: 'High', label: 'Tinggi', color: '#f43f5e' }
+  { name: 'Low', labelKey: 'burnout.safe', color: '#10b981' },
+  { name: 'Medium', labelKey: 'burnout.medium', color: '#f59e0b' },
+  { name: 'High', labelKey: 'burnout.high', color: '#f43f5e' }
 ]
 
 const buildDistributionData = (data) => {
@@ -29,6 +30,7 @@ const buildDistributionData = (data) => {
 
 export default function BurnoutDistributionChart({ data }) {
   const { isDark } = useTheme()
+  const { t } = useLanguage()
   const distributionData = buildDistributionData(data)
   const pieData = distributionData.filter((item) => item.value > 0)
   const total = distributionData.reduce((sum, item) => sum + item.value, 0)
@@ -36,7 +38,7 @@ export default function BurnoutDistributionChart({ data }) {
   return (
     <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 h-full flex flex-col transition-colors duration-300">
       <div className="mb-6 flex justify-between items-center gap-4">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Distribusi Level Burnout</h3>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t('dashboard.distribution_title')}</h3>
         <i className="fa-solid fa-chart-pie text-slate-400"></i>
       </div>
 
@@ -61,7 +63,7 @@ export default function BurnoutDistributionChart({ data }) {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value) => [`${value} prediksi`, 'Jumlah']}
+                  formatter={(value) => [t('dashboard.prediction_count', { count: value }), t('dashboard.count')]}
                   contentStyle={{
                     backgroundColor: isDark ? '#1e293b' : '#ffffff',
                     borderColor: isDark ? '#334155' : '#e2e8f0',
@@ -75,7 +77,7 @@ export default function BurnoutDistributionChart({ data }) {
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <div className="text-center">
                 <div className="text-3xl font-black text-slate-900 dark:text-white">{total}</div>
-                <div className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Total</div>
+                <div className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('dashboard.total')}</div>
               </div>
             </div>
           </div>
@@ -85,14 +87,14 @@ export default function BurnoutDistributionChart({ data }) {
               <div key={item.name} className="rounded-2xl bg-slate-50 dark:bg-slate-900/50 p-3 text-center">
                 <div className="mx-auto mb-2 h-2 w-8 rounded-full" style={{ backgroundColor: item.color }}></div>
                 <div className="text-sm font-black text-slate-900 dark:text-white">{item.value}</div>
-                <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">{item.label}</div>
+                <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">{t(item.labelKey)}</div>
               </div>
             ))}
           </div>
         </div>
       ) : (
         <div className="h-[280px] flex items-center justify-center text-center text-slate-500 dark:text-slate-400 font-medium">
-          Belum ada data prediksi.
+          {t('dashboard.distribution_empty')}
         </div>
       )}
     </div>

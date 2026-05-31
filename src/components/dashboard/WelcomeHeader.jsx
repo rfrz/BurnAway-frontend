@@ -1,15 +1,17 @@
 import { useAuth } from '../../hooks/useAuth.js'
+import { useLanguage } from '../../hooks/useLanguage.js'
 
 export default function WelcomeHeader() {
   const { user } = useAuth()
-  const name = user?.username || 'Developer'
+  const { t } = useLanguage()
+  const name = user?.username || t('common.default_user')
 
   return (
     <div className="bg-gradient-to-r from-brand to-blue-600 dark:from-brand/80 dark:to-blue-800 rounded-3xl p-8 text-white shadow-lg relative overflow-hidden">
       <div className="relative z-10">
-        <h1 className="text-3xl font-bold mb-2">Halo, {name}! 👋</h1>
+        <h1 className="text-3xl font-bold mb-2">{t('dashboard.greeting', { name })}</h1>
         <p className="text-blue-100 max-w-xl text-sm md:text-base">
-          Pantau tingkat stresmu hari ini. Jangan lupa untuk beristirahat jika mulai merasa lelah.
+          {t('dashboard.welcome_subtitle')}
         </p>
       </div>
       

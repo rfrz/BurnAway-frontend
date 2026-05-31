@@ -25,7 +25,7 @@ export default function LoginForm() {
     if (result.success) {
       navigate('/dashboard')
     } else {
-      setError(result.error)
+      setError(result.error || t('errors.login_failed'))
     }
   }
 
@@ -41,7 +41,7 @@ export default function LoginForm() {
 
       <div>
         <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block transition-colors">
-          Email
+          {t('auth.email')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
@@ -51,7 +51,7 @@ export default function LoginForm() {
             type="email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Masukkan email" 
+            placeholder={t('auth.email_placeholder')} 
             required 
             className={`w-full pl-11 pr-4 py-3 rounded-xl border bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 outline-none transition-all ${error ? 'form-input-error' : 'border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-brand dark:focus:ring-brand/50'}`}
           />
@@ -60,7 +60,7 @@ export default function LoginForm() {
       
       <div>
         <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block transition-colors">
-          Password
+          {t('auth.password')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
@@ -70,7 +70,7 @@ export default function LoginForm() {
             type={showPassword ? 'text' : 'password'} 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Masukkan password" 
+            placeholder={t('auth.password_placeholder')} 
             required 
             className={`w-full pl-11 pr-12 py-3 rounded-xl border bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 outline-none transition-all ${error ? 'form-input-error' : 'border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-brand dark:focus:ring-brand/50'}`}
           />

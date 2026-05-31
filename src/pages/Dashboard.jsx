@@ -6,8 +6,10 @@ import BurnoutDistributionChart from '../components/dashboard/BurnoutDistributio
 import StatCard from '../components/dashboard/StatCard'
 import LatestPredictionCard from '../components/dashboard/LatestPredictionCard'
 import api from '../services/api'
+import { useLanguage } from '../hooks/useLanguage.js'
 
 export default function Dashboard() {
+  const { t } = useLanguage()
   const [predictions, setPredictions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -47,20 +49,20 @@ export default function Dashboard() {
         {/* Stats Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <StatCard 
-            title="Total Prediksi" 
+            title={t('dashboard.stats.total_predictions')} 
             value={totalPredictions} 
             icon="fa-chart-simple" 
             colorClass="bg-blue-500 dark:bg-blue-600" 
           />
           <StatCard 
-            title="Risiko Tinggi" 
+            title={t('dashboard.stats.high_risk')} 
             value={highRiskCount} 
             icon="fa-triangle-exclamation" 
             colorClass="bg-red-500 dark:bg-red-600" 
           />
           <StatCard 
-            title="Tingkat Stres Saat Ini" 
-            value={latestPrediction?.stress_level != null ? `${latestPrediction.stress_level}/10` : 'N/A'} 
+            title={t('dashboard.stats.current_stress')} 
+            value={latestPrediction?.stress_level != null ? `${latestPrediction.stress_level}/10` : t('common.na')} 
             icon="fa-heart-pulse" 
             colorClass="bg-brand" 
           />

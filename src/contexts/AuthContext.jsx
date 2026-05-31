@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
       setIsAuthenticated(true);
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message || 'Login failed' };
+      return { success: false, error: error.message };
     }
   };
 
@@ -64,7 +64,7 @@ export function AuthProvider({ children }) {
       setIsAuthenticated(true);
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message || 'Registration failed' };
+      return { success: false, error: error.message };
     }
   };
 
@@ -78,7 +78,7 @@ export function AuthProvider({ children }) {
       setUser(updatedUser);
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message || 'Update failed' };
+      return { success: false, error: error.message };
     }
   };
 
@@ -92,7 +92,7 @@ export function AuthProvider({ children }) {
       }
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message || 'Password update failed' };
+      return { success: false, error: error.message };
     }
   };
 
@@ -102,7 +102,7 @@ export function AuthProvider({ children }) {
       logout();
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.message || 'Account deletion failed' };
+      return { success: false, error: error.message };
     }
   };
 

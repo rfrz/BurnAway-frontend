@@ -1,14 +1,19 @@
 import MarkdownContent from '../common/MarkdownContent'
-import { normalizePrediction } from '../../utils/prediction'
+import { getBurnoutLevelKey, normalizePrediction } from '../../utils/prediction'
+import { useLanguage } from '../../hooks/useLanguage.js'
 
 export default function ResultCard({ data, onReset }) {
+  const { t } = useLanguage()
   const normalizedData = normalizePrediction(data)
   if (!normalizedData) return null
 
   const level = normalizedData.burnout_level || "Unknown"
   const confidence = normalizedData.confidence
   const probabilities = normalizedData.probabilities
-  const advice = normalizedData.advice || "Saran tidak tersedia."
+  const advice = normalizedData.advice || t('predict.advice_unavailable')
+  const getBurnoutLabel = (value) => {
+    return t(`burnout.${getBurnoutLevelKey(value)}`)
+  }
   
   // Konfigurasi tampilan berdasarkan tingkat burnout
   const getStyleConfigs = (level) => {
@@ -20,7 +25,7 @@ export default function ResultCard({ data, onReset }) {
           text: "text-red-700 dark:text-red-400",
           icon: "fa-triangle-exclamation",
           ring: "ring-red-100 dark:ring-red-500/20",
-          title: "Risiko Tinggi"
+          title: t('predict.risk_high')
         }
       case "Medium":
       case "Moderate":
@@ -30,7 +35,7 @@ export default function ResultCard({ data, onReset }) {
           text: "text-amber-700 dark:text-amber-400",
           icon: "fa-circle-exclamation",
           ring: "ring-amber-100 dark:ring-amber-500/20",
-          title: "Risiko Sedang"
+          title: t('predict.risk_medium')
         }
       case "Low":
         return {
@@ -39,7 +44,7 @@ export default function ResultCard({ data, onReset }) {
           text: "text-emerald-700 dark:text-[#23b1f5]",
           icon: "fa-circle-check",
           ring: "ring-emerald-100 dark:ring-[#23b1f5]/20",
-          title: "Risiko Rendah"
+          title: t('predict.risk_low')
         }
       default:
         return {
@@ -48,7 +53,7 @@ export default function ResultCard({ data, onReset }) {
           text: "text-slate-700 dark:text-slate-300",
           icon: "fa-circle-info",
           ring: "ring-slate-100 dark:ring-slate-800",
-          title: "Tidak Diketahui"
+          title: t('predict.risk_unknown')
         }
     }
   }
@@ -68,7 +73,7 @@ export default function ResultCard({ data, onReset }) {
             {style.title}
           </h2>
           <p className="text-slate-600 dark:text-slate-400 font-medium text-lg">
-            Berdasarkan analisis pola kerja dan gaya hidupmu.
+            {t('predict.result_basis')}
           </p>
         </div>
 
@@ -78,7 +83,7 @@ export default function ResultCard({ data, onReset }) {
             {confidence != null && (
               <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-5 border border-black/5 dark:border-white/5 shadow-sm">
                 <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
-                  Confidence
+                  {t('predict.confidence')}
                 </p>
                 <p className="text-2xl font-black text-slate-900 dark:text-white">
                   {(Number(confidence) * 100).toFixed(1)}%
@@ -88,12 +93,12 @@ export default function ResultCard({ data, onReset }) {
             {probabilities && (
               <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-5 border border-black/5 dark:border-white/5 shadow-sm">
                 <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
-                  Probabilitas
+                  {t('predict.probability')}
                 </p>
                 <div className="space-y-1">
                   {Object.entries(probabilities).map(([label, value]) => (
                     <div key={label} className="flex justify-between text-sm font-semibold text-slate-700 dark:text-slate-300">
-                      <span>{label}</span>
+                      <span>{getBurnoutLabel(label)}</span>
                       <span>{(Number(value) * 100).toFixed(1)}%</span>
                     </div>
                   ))}
@@ -106,7 +111,7 @@ export default function ResultCard({ data, onReset }) {
         <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-6 border border-black/5 dark:border-white/5 shadow-sm">
           <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
             <i className="fa-solid fa-wand-magic-sparkles text-brand"></i>
-            Saran & Tindakan Preventif
+            {t('predict.advice_title')}
           </h3>
           <MarkdownContent text={advice} className="font-medium" />
         </div>
@@ -118,7 +123,7 @@ export default function ResultCard({ data, onReset }) {
         className="w-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-bold py-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm flex items-center justify-center gap-2 text-lg cursor-pointer"
       >
         <i className="fa-solid fa-rotate-right"></i>
-        Uji Ulang Prediksi
+        {t('predict.reset')}
       </button>
     </div>
   )

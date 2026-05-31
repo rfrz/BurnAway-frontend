@@ -43,9 +43,9 @@ export default function Navbar() {
       
       {/* TENGAH: Tautan Teks (Hanya muncul di layar laptop/lebar) */}
       <div className="hidden md:flex gap-8 items-center text-sm font-medium">
-        <a href="#features" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">Features</a>
-        <a href="#how" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">How it Works</a>
-        <a href="#about" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">About Us</a>
+        <a href="#features" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">{t('nav.features')}</a>
+        <a href="#how" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">{t('nav.how')}</a>
+        <a href="#about" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">{t('nav.about')}</a>
       </div>
 
       {/* KANAN: Pengaturan & Auth (SELALU MUNCUL di semua ukuran layar) */}
@@ -61,7 +61,7 @@ export default function Navbar() {
             className="h-10 px-1.5 flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-[#23b1f5] dark:text-slate-300 dark:hover:text-[#23b1f5] transition-colors cursor-pointer"
             aria-haspopup="listbox"
             aria-expanded={isLanguageOpen}
-            title="Switch language"
+            title={t('common.language_title')}
           >
             <i className="fa-solid fa-globe text-base"></i>
             <span>{language.toUpperCase()}</span>
