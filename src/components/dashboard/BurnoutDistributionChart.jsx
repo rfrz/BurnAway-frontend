@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { useTheme } from '../../hooks/useTheme.js'
 import { useLanguage } from '../../hooks/useLanguage.js'
@@ -31,6 +32,7 @@ const buildDistributionData = (data) => {
 export default function BurnoutDistributionChart({ data }) {
   const { isDark } = useTheme()
   const { t } = useLanguage()
+  const [isChartHovered, setIsChartHovered] = useState(false)
   const distributionData = buildDistributionData(data)
   const pieData = distributionData.filter((item) => item.value > 0)
   const total = distributionData.reduce((sum, item) => sum + item.value, 0)
@@ -44,7 +46,11 @@ export default function BurnoutDistributionChart({ data }) {
 
       {total > 0 ? (
         <div className="flex-1 flex flex-col">
-          <div className="relative w-full h-[230px]">
+          <div
+            className="relative w-full h-[230px]"
+            onMouseEnter={() => setIsChartHovered(true)}
+            onMouseLeave={() => setIsChartHovered(false)}
+          >
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -64,17 +70,21 @@ export default function BurnoutDistributionChart({ data }) {
                 </Pie>
                 <Tooltip
                   formatter={(value) => [t('dashboard.prediction_count', { count: value }), t('dashboard.count')]}
+                  wrapperStyle={{ zIndex: 30, outline: 'none' }}
                   contentStyle={{
                     backgroundColor: isDark ? '#1e293b' : '#ffffff',
                     borderColor: isDark ? '#334155' : '#e2e8f0',
                     color: isDark ? '#f8fafc' : '#0f172a',
-                    borderRadius: '12px'
+                    borderRadius: '12px',
+                    boxShadow: '0 12px 24px -12px rgb(15 23 42 / 0.45)'
                   }}
+                  itemStyle={{ color: isDark ? '#f8fafc' : '#0f172a', fontWeight: 700 }}
+                  labelStyle={{ color: isDark ? '#cbd5e1' : '#475569', fontWeight: 700 }}
                 />
               </PieChart>
             </ResponsiveContainer>
 
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div className={`pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-150 ${isChartHovered ? 'opacity-20' : 'opacity-100'}`}>
               <div className="text-center">
                 <div className="text-3xl font-black text-slate-900 dark:text-white">{total}</div>
                 <div className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('dashboard.total')}</div>
