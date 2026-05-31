@@ -18,7 +18,7 @@ export default function ThemeToggle() {
   return (
     <button 
       onClick={toggleTheme}
-      className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors cursor-pointer text-slate-700 dark:text-slate-300"
+      className="w-10 h-10 flex items-center justify-center transition-colors cursor-pointer text-slate-700 hover:text-[#23b1f5] dark:text-slate-300 dark:hover:text-[#23b1f5]"
       title={getTitle()}
     >
       <i className={`fa-solid ${getIcon()} text-lg`}></i>
