@@ -91,8 +91,13 @@ export default function PredictionDetailPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-          <aside className="xl:col-span-5 bg-white dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div className="flex flex-col gap-6 w-full">
+          <ResultCard 
+            data={prediction} 
+            className="w-full"
+          />
+
+          <aside className="bg-white dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-200 dark:border-slate-700 shadow-sm w-full">
             <div className="mb-5">
               <h2 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
                 <i className="fa-solid fa-list-check text-brand"></i>
@@ -103,7 +108,7 @@ export default function PredictionDetailPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {metricKeys.map((item) => (
                 <div key={item.key} className="flex items-center justify-between gap-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 p-4">
                   <div className="flex items-center gap-3 min-w-0">
@@ -122,12 +127,13 @@ export default function PredictionDetailPage() {
             </div>
           </aside>
 
-          <div className="xl:col-span-7">
-            <ResultCard 
-              data={prediction} 
-              onReset={() => navigate('/predict')} 
-            />
-          </div>
+          <button 
+            onClick={() => navigate('/predict')}
+            className="w-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-bold py-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm flex items-center justify-center gap-2 text-lg cursor-pointer"
+          >
+            <i className="fa-solid fa-rotate-right"></i>
+            {t('predict.reset')}
+          </button>
         </div>
         
         <ConfirmModal 

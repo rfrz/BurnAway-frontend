@@ -2,7 +2,7 @@ import MarkdownContent from '../common/MarkdownContent'
 import { getBurnoutLevelKey, normalizePrediction } from '../../utils/prediction'
 import { useLanguage } from '../../hooks/useLanguage.js'
 
-export default function ResultCard({ data, onReset }) {
+export default function ResultCard({ data, onReset, className = "max-w-2xl mx-auto" }) {
   const { t } = useLanguage()
   const normalizedData = normalizePrediction(data)
   if (!normalizedData) return null
@@ -61,7 +61,7 @@ export default function ResultCard({ data, onReset }) {
   const style = getStyleConfigs(level)
 
   return (
-    <div className="max-w-2xl mx-auto flex flex-col gap-6 animate-slide-up">
+    <div className={`${className} flex flex-col gap-6 animate-slide-up`}>
       <div className={`rounded-[2rem] border p-8 md:p-10 shadow-lg ${style.bg} ${style.border} transition-colors duration-300`}>
         
         {/* Header Hasil */}
@@ -118,13 +118,15 @@ export default function ResultCard({ data, onReset }) {
 
       </div>
 
-      <button 
-        onClick={onReset}
-        className="w-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-bold py-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm flex items-center justify-center gap-2 text-lg cursor-pointer"
-      >
-        <i className="fa-solid fa-rotate-right"></i>
-        {t('predict.reset')}
-      </button>
+      {onReset && (
+        <button 
+          onClick={onReset}
+          className="w-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-bold py-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm flex items-center justify-center gap-2 text-lg cursor-pointer"
+        >
+          <i className="fa-solid fa-rotate-right"></i>
+          {t('predict.reset')}
+        </button>
+      )}
     </div>
   )
 }
