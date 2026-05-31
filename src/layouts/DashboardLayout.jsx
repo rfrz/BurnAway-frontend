@@ -12,11 +12,17 @@ export default function DashboardLayout() {
   const { t, language, changeLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   const navItems = [
     { path: '/dashboard', icon: 'fa-chart-pie', label: t('nav.dashboard') || 'Dasbor' },
     { path: '/predict', icon: 'fa-wand-magic-sparkles', label: t('nav.predict') || 'Prediksi Baru' },
     { path: '/history', icon: 'fa-clipboard-list', label: t('nav.history') || 'Riwayat' }
+  ];
+
+  const languages = [
+    { value: 'en', label: 'EN' },
+    { value: 'id', label: 'ID' }
   ];
 
   const getThemeIcon = () => {
@@ -112,22 +118,56 @@ export default function DashboardLayout() {
             
             <button 
               onClick={toggleTheme}
-              className={`flex items-center justify-center h-10 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-300 hover:text-brand transition-colors cursor-pointer ${isCollapsed ? 'w-10' : 'flex-1 gap-2'}`}
+              className={`flex items-center justify-center h-10 text-slate-600 dark:text-slate-300 hover:text-brand transition-colors cursor-pointer ${isCollapsed ? 'w-10' : 'flex-1 gap-2'}`}
               title="Ganti Tema"
             >
               <i className={`fa-solid ${getThemeIcon()}`}></i>
               {!isCollapsed && <span className="text-sm font-semibold">{getThemeLabel()}</span>}
             </button>
 
-            <select 
-              value={language} 
-              onChange={(e) => changeLanguage(e.target.value)}
-              className={`h-10 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-300 font-semibold cursor-pointer outline-none text-center ${isCollapsed ? 'w-10 text-xs px-1' : 'flex-1 px-2 text-sm'}`}
-              title="Ganti Bahasa"
-            >
-              <option value="en">EN</option>
-              <option value="id">ID</option>
-            </select>
+            <div className={`relative ${isCollapsed ? 'w-10' : 'flex-1'}`}>
+              <button
+                type="button"
+                onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+                className={`flex h-10 w-full items-center justify-center text-slate-600 dark:text-slate-300 hover:text-brand transition-colors cursor-pointer ${isCollapsed ? '' : 'gap-2'}`}
+                title="Ganti Bahasa"
+                aria-haspopup="listbox"
+                aria-expanded={showLanguageMenu}
+              >
+                <i className="fa-solid fa-globe"></i>
+                {!isCollapsed && <span className="text-sm font-semibold">{language.toUpperCase()}</span>}
+                {!isCollapsed && (
+                  <i className={`fa-solid fa-chevron-down text-[10px] transition-transform ${showLanguageMenu ? 'rotate-180' : ''}`}></i>
+                )}
+              </button>
+
+              {showLanguageMenu && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setShowLanguageMenu(false)}></div>
+                  <div className={`absolute bottom-full mb-2 z-50 overflow-hidden rounded-xl bg-white/95 py-1 shadow-xl shadow-slate-900/10 backdrop-blur-md dark:bg-slate-800/95 dark:shadow-black/30 ${isCollapsed ? 'left-0 w-24' : 'left-0 w-full'}`}>
+                    {languages.map((item) => (
+                      <button
+                        key={item.value}
+                        type="button"
+                        onClick={() => {
+                          changeLanguage(item.value);
+                          setShowLanguageMenu(false);
+                        }}
+                        className={`w-full px-4 py-2 text-left text-sm font-semibold transition-colors ${
+                          language === item.value
+                            ? 'bg-brand/10 text-brand'
+                            : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700/70'
+                        }`}
+                        role="option"
+                        aria-selected={language === item.value}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
 
           </div>
 
