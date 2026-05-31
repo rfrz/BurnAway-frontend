@@ -1,99 +1,95 @@
 export default function ResultCard({ data, onReset }) {
+  if (!data) return null
+
+  // Backend returns: { id, burnout_level, stress_level, advice, ... }
+  // Provide fallback just in case
+  const level = data.burnout_level || "Unknown"
+  const advice = data.advice || "Saran tidak tersedia."
   
-  // Ambil data prediction dan advice dari objek utama yang dikirim
-  const { prediction, advice } = data;
+  // Konfigurasi tampilan berdasarkan tingkat burnout
+  const getStyleConfigs = (level) => {
+    switch (level) {
+      case "High":
+        return {
+          bg: "bg-red-50 dark:bg-red-500/10",
+          border: "border-red-200 dark:border-red-500/20",
+          text: "text-red-700 dark:text-red-400",
+          icon: "fa-triangle-exclamation",
+          ring: "ring-red-100 dark:ring-red-500/20",
+          title: "Risiko Tinggi"
+        }
+      case "Medium":
+      case "Moderate":
+        return {
+          bg: "bg-amber-50 dark:bg-amber-500/10",
+          border: "border-amber-200 dark:border-amber-500/20",
+          text: "text-amber-700 dark:text-amber-400",
+          icon: "fa-circle-exclamation",
+          ring: "ring-amber-100 dark:ring-amber-500/20",
+          title: "Risiko Sedang"
+        }
+      case "Low":
+        return {
+          bg: "bg-emerald-50 dark:bg-emerald-500/10",
+          border: "border-emerald-200 dark:border-emerald-500/20",
+          text: "text-emerald-700 dark:text-emerald-400",
+          icon: "fa-circle-check",
+          ring: "ring-emerald-100 dark:ring-emerald-500/20",
+          title: "Risiko Rendah"
+        }
+      default:
+        return {
+          bg: "bg-slate-50 dark:bg-slate-800",
+          border: "border-slate-200 dark:border-slate-700",
+          text: "text-slate-700 dark:text-slate-300",
+          icon: "fa-circle-info",
+          ring: "ring-slate-100 dark:ring-slate-800",
+          title: "Tidak Diketahui"
+        }
+    }
+  }
 
-  const isHighRisk = prediction.burnout_level === "High"
-
-  // Fungsi pembantu untuk membuat kartu metrik kecil
-  const renderMetricCard = (title, value, unit, icon) => (
-    <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
-      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-inner ${isHighRisk ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400' : 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400'}`}>
-        <i className={`fa-solid ${icon}`}></i>
-      </div>
-      <div>
-        <p className="text-sm text-slate-500 dark:text-slate-400">{title}</p>
-        <p className="text-2xl font-black text-slate-900 dark:text-white">
-          {value}
-          <span className="text-base font-medium text-slate-400 ml-1">{unit}</span>
-        </p>
-      </div>
-    </div>
-  )
+  const style = getStyleConfigs(level)
 
   return (
-    <div className="grid grid-cols-12 gap-8 animate-fade-in">
-      
-      {/* Sisi Kiri: Data Hasil Angka Simulasi */}
-      <div className="col-span-12 lg:col-span-6 space-y-6">
+    <div className="max-w-2xl mx-auto flex flex-col gap-6 animate-slide-up">
+      <div className={`rounded-[2rem] border p-8 md:p-10 shadow-lg ${style.bg} ${style.border} transition-colors duration-300`}>
         
-        {/* Kartu Status Utama */}
-        <div className={`p-8 rounded-3xl border ${isHighRisk ? 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-900' : 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900'}`}>
-           <p className="text-sm font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
-             Indikasi Tingkat Burnout
-           </p>
-           
-           <h2 className={`text-6xl font-black tracking-tighter mt-2 mb-3 ${isHighRisk ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
-             {prediction.burnout_level}
-           </h2>
-           
-           <p className={`text-base max-w-sm ${isHighRisk ? 'text-red-700 dark:text-red-300' : 'text-emerald-700 dark:text-emerald-300'}`}>
-             {isHighRisk 
-               ? 'Perhatian: Metrik Anda menunjukkan risiko kelelahan tinggi. Segera tinjau saran AI.' 
-               : 'Kabar Baik: Kondisi Anda terlihat stabil dan terkendali saat ini.'}
-           </p>
+        {/* Header Hasil */}
+        <div className="flex flex-col items-center text-center border-b border-black/5 dark:border-white/5 pb-8 mb-8">
+          <div className={`w-24 h-24 rounded-full flex items-center justify-center bg-white dark:bg-slate-900 shadow-sm ring-8 ${style.ring} mb-6`}>
+            <i className={`fa-solid ${style.icon} text-5xl ${style.text}`}></i>
+          </div>
+          <h2 className={`text-4xl font-black tracking-tight mb-2 ${style.text}`}>
+            {style.title}
+          </h2>
+          <p className="text-slate-600 dark:text-slate-400 font-medium text-lg">
+            Berdasarkan analisis pola kerja dan gaya hidupmu.
+          </p>
         </div>
 
-        {/* Grid Metrik Detail */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {renderMetricCard("Akurasi Prediksi", (prediction.confidence * 100).toFixed(0), "%", "fa-bullseye")}
-            {renderMetricCard("Estimasi Stres", prediction.stress_estimate.toFixed(1), "/100", "fa-gauge-simple-high")}
-        </div>
-        
-        {/* Placeholder Probabilitas Simulasi */}
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-           <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">Distribusi Probabilitas (Simulasi):</p>
-           <div className="flex gap-2 h-8 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800 shadow-inner">
-              <div style={{width: `${prediction.probabilities.Low * 100}%`}} className="bg-emerald-500 hover:opacity-90 transition-opacity" title="Low"></div>
-              <div style={{width: `${prediction.probabilities.Medium * 100}%`}} className="bg-orange-500 hover:opacity-90 transition-opacity" title="Medium"></div>
-              <div style={{width: `${prediction.probabilities.High * 100}%`}} className="bg-red-500 hover:opacity-90 transition-opacity" title="High"></div>
-           </div>
+        {/* Saran AI / Detail */}
+        <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-6 border border-black/5 dark:border-white/5 shadow-sm">
+          <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <i className="fa-solid fa-wand-magic-sparkles text-brand"></i>
+            Saran & Tindakan Preventif
+          </h3>
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+              {advice}
+            </p>
+          </div>
         </div>
 
       </div>
 
-      {/* Sisi Kanan: Placeholder Rekomendasi AI (Gemini) (6 Kolom) */}
-      <div className="col-span-12 lg:col-span-6 flex flex-col">
-        <div className="bg-slate-900/5 dark:bg-slate-900 p-10 rounded-3xl border border-slate-200 dark:border-slate-800 flex-grow shadow-inner">
-          <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 dark:bg-emerald-500 flex items-center justify-center text-white dark:text-slate-950">
-                <i className="fa-solid fa-sparkles"></i>
-              </div>
-              <h3 className="text-xl font-bold text-slate-800 dark:text-white">Saran AI (Powered by Gemini)</h3>
-          </div>
-          
-          <div className="prose dark:prose-invert prose-slate prose-sm text-slate-700 dark:text-slate-400">
-             {!advice ? (
-               <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 p-6 rounded-2xl text-center text-slate-500 dark:text-slate-600">
-                 Teks saran khusus berdasarkan respon AI timmu akan muncul di sini (Tinggal Hubungkan ke Gemini API).
-               </div>
-             ) : (
-               <>
-                 {/* Teks Gemini yang sesungguhnya nanti di sini */}
-                 {advice} 
-               </>
-             )}
-          </div>
-        </div>
-
-        <button 
-          onClick={onReset}
-          className="w-full mt-8 bg-transparent border-2 border-slate-300 text-slate-600 dark:text-slate-400 dark:border-slate-700 font-bold py-4 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-        >
-          &larr; Catat Ulang Metrik Hari Ini
-        </button>
-      </div>
-
+      <button 
+        onClick={onReset}
+        className="w-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-bold py-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm flex items-center justify-center gap-2 text-lg cursor-pointer"
+      >
+        <i className="fa-solid fa-rotate-right"></i>
+        Uji Ulang Prediksi
+      </button>
     </div>
   )
 }

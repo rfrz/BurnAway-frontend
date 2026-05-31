@@ -1,55 +1,21 @@
-import { useNavigate, Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useAuth } from '../../contexts/AuthContext'
 
 export default function WelcomeHeader() {
-  const navigate = useNavigate()
-  const [userName, setUserName] = useState('Pengguna')
-
-  // Mengambil nama dari localStorage saat komponen dimuat
-  useEffect(() => {
-    const storedName = localStorage.getItem('user_name')
-    if (storedName) {
-      setUserName(storedName)
-    }
-  }, [])
-
-  // Fungsi untuk menangani proses keluar secara menyeluruh
-  const handleLogout = () => {
-    localStorage.removeItem('dummy_token')
-    localStorage.removeItem('user_name')
-    navigate('/login')
-  }
-
-  // Mengambil huruf pertama untuk avatar
-  const initial = userName.charAt(0).toUpperCase()
+  const { user } = useAuth()
+  const name = user?.username || 'Developer'
 
   return (
-    <div className="w-full flex justify-between items-center bg-slate-200 dark:bg-slate-800 rounded-full px-8 py-4 shadow-sm transition-colors duration-300">
-      
-      <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 transition-colors">
-        Halo, {userName}!
-      </h2>
-      
-      <div className="flex items-center gap-4">
-        
-        {/* PERBAIKAN: Menambahkan onClick={handleLogout} dan memperbaiki warna hover agar merah menyala */}
-        <button 
-          onClick={handleLogout}
-          className="flex items-center gap-2 font-bold text-slate-600 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 bg-white/50 dark:bg-slate-700/50 hover:bg-red-50 dark:hover:bg-red-500/10 px-5 py-2.5 rounded-xl transition-all w-max cursor-pointer"
-        >
-          <span>Keluar</span>
-          <i className="fa-solid fa-arrow-right-from-bracket"></i>
-        </button>
-        
-        {/* Tombol Profil (Sudah Sempurna) */}
-        <Link 
-          to="/profile" 
-          className="w-10 h-10 bg-slate-400 dark:bg-slate-600 rounded-full flex items-center justify-center font-bold text-white shadow-inner hover:scale-105 active:scale-95 transition-transform cursor-pointer block"
-          title="Lihat Profil"
-        >
-          {initial}
-        </Link>
+    <div className="bg-gradient-to-r from-brand to-blue-600 dark:from-brand/80 dark:to-blue-800 rounded-3xl p-8 text-white shadow-lg relative overflow-hidden">
+      <div className="relative z-10">
+        <h1 className="text-3xl font-bold mb-2">Halo, {name}! 👋</h1>
+        <p className="text-blue-100 max-w-xl text-sm md:text-base">
+          Pantau tingkat stresmu hari ini. Jangan lupa untuk beristirahat jika mulai merasa lelah.
+        </p>
       </div>
+      
+      {/* Decorative background elements */}
+      <div className="absolute right-0 top-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+      <div className="absolute right-40 bottom-0 w-32 h-32 bg-brand-hover/40 rounded-full blur-2xl translate-y-1/2"></div>
     </div>
   )
 }

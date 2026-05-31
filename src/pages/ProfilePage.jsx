@@ -1,153 +1,193 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 export default function ProfilePage() {
-  // Simulasi memori state untuk data profil
-  const [profileData, setProfileData] = useState({
-    name: 'name',
-    email: 'name@contoh.com',
-    role: 'Software Engineer'
+  const navigate = useNavigate()
+  const { user, updateUser, deleteAccount } = useAuth()
+  
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    birth_date: '',
+    experience_years: ''
   })
+  
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
 
-  // Simulasi memori state untuk form ubah password
-  const [passwords, setPasswords] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  })
-
-  const handleProfileChange = (e) => {
-    setProfileData({ ...profileData, [e.target.name]: e.target.value })
-  }
-
-  const handlePasswordChange = (e) => {
-    setPasswords({ ...passwords, [e.target.name]: e.target.value })
-  }
-
-  const handleSaveProfile = (e) => {
-    e.preventDefault()
-    // Logika integrasi API Backend nanti diletakkan di sini
-    console.log('Menyimpan data profil...', profileData)
-    alert('Profil berhasil diperbarui! (Simulasi)')
-  }
-
-  const handleUpdatePassword = (e) => {
-    e.preventDefault()
-    if (passwords.newPassword !== passwords.confirmPassword) {
-      alert('Password baru tidak cocok!')
-      return
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        username: user.username || '',
+        email: user.email || '',
+        birth_date: user.birth_date ? new Date(user.birth_date).toISOString().split('T')[0] : '',
+        experience_years: user.experience_years?.toString() || ''
+      })
     }
-    console.log('Mengubah password...', passwords)
-    alert('Password berhasil diubah! (Simulasi)')
-    setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' }) // Reset form
+  }, [user])
+
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSave = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setMessage('')
+    setError('')
+    
+    try {
+      const payload = {
+        ...formData,
+        experience_years: Number(formData.experience_years)
+      }
+      const result = await updateUser(payload)
+      
+      if (result.success) {
+        setMessage('Profil berhasil diperbarui!')
+      } else {
+        setError(result.error)
+      }
+    } catch (err) {
+      setError('Terjadi kesalahan saat menyimpan profil.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    if (window.confirm('Apakah Anda yakin ingin menghapus akun ini secara permanen?')) {
+      const result = await deleteAccount()
+      if (!result.success) {
+        setError(result.error)
+      } else {
+        navigate('/login')
+      }
+    }
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] p-6 md:p-10 transition-colors duration-300 selection:bg-[#98deff]/50 dark:selection:bg-emerald-500/30">
-      
-      <div className="w-full max-w-5xl mx-auto">
+    <div className="w-full min-h-screen py-8 px-4 sm:px-6 md:px-8 transition-colors duration-300">
+      <div className="max-w-3xl mx-auto">
         
-        {/* Header Navigation */}
-        <div className="flex justify-between items-center mb-10 pb-6 border-b border-slate-200 dark:border-slate-800">
-            <Link to="/dashboard" className="text-slate-500 hover:text-[#23b1f5] font-semibold transition-colors flex items-center gap-2 dark:text-slate-400 dark:hover:text-emerald-400">
-              &larr; Kembali ke Dashboard
-            </Link>
-            <div className="text-right">
-              <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
-                Pengaturan Profil
-              </h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Kelola informasi personal dan keamanan akunmu.
-              </p>
-            </div>
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8 pb-6 border-b border-slate-200 dark:border-slate-800">
+          <Link to="/dashboard" className="text-slate-500 hover:text-brand font-semibold transition-colors flex items-center gap-2">
+            <i className="fa-solid fa-arrow-left"></i> Kembali
+          </Link>
+          <div className="text-right">
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+              Pengaturan Profil
+            </h1>
+          </div>
         </div>
 
-        {/* Bento UI Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {message && (
+          <div className="alert-banner alert-success mb-6">
+            <i className="fa-solid fa-circle-check"></i>
+            {message}
+          </div>
+        )}
+
+        {error && (
+          <div className="alert-banner alert-error mb-6">
+            <i className="fa-solid fa-circle-exclamation"></i>
+            {error}
+          </div>
+        )}
+
+        <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm mb-8">
+          <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white flex items-center gap-2">
+            <i className="fa-solid fa-user-pen text-brand"></i>
+            Informasi Dasar
+          </h2>
           
-          {/* Sisi Kiri: Kartu Identitas (4 Kolom) */}
-          <div className="lg:col-span-4">
-            <div className="bg-white dark:bg-slate-800/50 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-700/50 shadow-sm text-center">
-              <div className="relative inline-block mb-6">
-                <div className="w-32 h-32 rounded-full bg-[#98deff]/30 dark:bg-emerald-500/10 flex items-center justify-center text-[#23b1f5] dark:text-emerald-400 text-5xl font-black border-4 border-white dark:border-slate-800 shadow-xl shadow-[#98deff]/40 dark:shadow-none">
-                  {profileData.name.charAt(0).toUpperCase()}
-                </div>
-                <button className="absolute bottom-0 right-0 w-10 h-10 bg-[#23b1f5] dark:bg-emerald-500 rounded-full flex items-center justify-center text-white dark:text-slate-950 border-4 border-white dark:border-slate-800 hover:scale-110 transition-transform">
-                  <i className="fa-solid fa-camera"></i>
-                </button>
-              </div>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{profileData.name}</h2>
-              <p className="text-slate-500 dark:text-slate-400 mb-6">{profileData.role}</p>
-              
-              <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-widest">
-                Akun Terverifikasi
-              </div>
+          <form onSubmit={handleSave} className="space-y-5">
+            <div>
+              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Username</label>
+              <input 
+                type="text" 
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand dark:focus:ring-brand/50 outline-none transition-all"
+              />
             </div>
-          </div>
-
-          {/* Sisi Kanan: Form Edit (8 Kolom) */}
-          <div className="lg:col-span-8 space-y-8">
             
-            {/* Form Informasi Personal */}
-            <div className="bg-white dark:bg-slate-800/50 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-700/50 shadow-sm">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
-                <i className="fa-solid fa-user-pen text-[#23b1f5] dark:text-emerald-400"></i>
-                Informasi Personal
-              </h3>
-              <form onSubmit={handleSaveProfile} className="space-y-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Nama Lengkap</label>
-                    <input type="text" name="name" value={profileData.name} onChange={handleProfileChange} className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-[#23b1f5] dark:focus:ring-emerald-500 outline-none transition-all" required />
-                  </div>
-                  <div>
-                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Pekerjaan / Peran</label>
-                    <input type="text" name="role" value={profileData.role} onChange={handleProfileChange} className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-[#23b1f5] dark:focus:ring-emerald-500 outline-none transition-all" />
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Email</label>
-                  <input type="email" name="email" value={profileData.email} onChange={handleProfileChange} className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-[#23b1f5] dark:focus:ring-emerald-500 outline-none transition-all" required />
-                </div>
-                <div className="pt-2">
-                  <button type="submit" className="bg-slate-900 text-white dark:bg-emerald-500 dark:text-slate-950 font-bold px-6 py-3 rounded-xl hover:bg-slate-800 dark:hover:bg-emerald-400 transition-all shadow-md">
-                    Simpan Perubahan
-                  </button>
-                </div>
-              </form>
+            <div>
+              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Email</label>
+              <input 
+                type="email" 
+                name="email"
+                value={formData.email}
+                disabled
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-slate-500 cursor-not-allowed outline-none"
+              />
+              <p className="text-xs text-slate-400 mt-1">Email tidak dapat diubah.</p>
             </div>
 
-            {/* Form Ubah Password */}
-            <div className="bg-white dark:bg-slate-800/50 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-700/50 shadow-sm">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
-                <i className="fa-solid fa-lock text-[#23b1f5] dark:text-emerald-400"></i>
-                Keamanan & Password
-              </h3>
-              <form onSubmit={handleUpdatePassword} className="space-y-5">
-                <div>
-                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Password Saat Ini</label>
-                  <input type="password" name="currentPassword" value={passwords.currentPassword} onChange={handlePasswordChange} className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-[#23b1f5] dark:focus:ring-emerald-500 outline-none transition-all" required />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Password Baru</label>
-                    <input type="password" name="newPassword" value={passwords.newPassword} onChange={handlePasswordChange} className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-[#23b1f5] dark:focus:ring-emerald-500 outline-none transition-all" required />
-                  </div>
-                  <div>
-                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Konfirmasi Password</label>
-                    <input type="password" name="confirmPassword" value={passwords.confirmPassword} onChange={handlePasswordChange} className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-slate-900 dark:text-white focus:ring-2 focus:ring-[#23b1f5] dark:focus:ring-emerald-500 outline-none transition-all" required />
-                  </div>
-                </div>
-                <div className="pt-2">
-                  <button type="submit" className="bg-white border-2 border-slate-200 text-slate-700 hover:bg-slate-50 dark:bg-transparent dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700 font-bold px-6 py-3 rounded-xl transition-all">
-                    Ubah Password
-                  </button>
-                </div>
-              </form>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Tanggal Lahir</label>
+                <input 
+                  type="date" 
+                  name="birth_date"
+                  value={formData.birth_date}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand dark:focus:ring-brand/50 outline-none transition-all"
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">Pengalaman (Tahun)</label>
+                <input 
+                  type="number" 
+                  name="experience_years"
+                  value={formData.experience_years}
+                  onChange={handleChange}
+                  required
+                  min="0"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand dark:focus:ring-brand/50 outline-none transition-all"
+                />
+              </div>
             </div>
 
-          </div>
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-end">
+              <button 
+                type="submit"
+                disabled={isLoading}
+                className="bg-brand text-white font-bold py-3 px-8 rounded-xl hover:bg-brand-hover active:scale-95 transition-all shadow-md flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isLoading ? <i className="fa-solid fa-circle-notch fa-spin"></i> : <i className="fa-solid fa-save"></i>}
+                Simpan Perubahan
+              </button>
+            </div>
+          </form>
         </div>
+
+        {/* Danger Zone */}
+        <div className="bg-red-50 dark:bg-red-500/10 rounded-3xl p-8 border border-red-200 dark:border-red-500/20 shadow-sm">
+          <h2 className="text-xl font-bold mb-2 text-red-700 dark:text-red-400 flex items-center gap-2">
+            <i className="fa-solid fa-triangle-exclamation"></i>
+            Zona Berbahaya
+          </h2>
+          <p className="text-red-600/80 dark:text-red-400/80 text-sm mb-6">
+            Menghapus akun akan menghapus semua riwayat prediksi dan data personal Anda secara permanen. Tindakan ini tidak dapat dibatalkan.
+          </p>
+          
+          <button 
+            onClick={handleDelete}
+            className="bg-red-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-red-700 transition-all shadow-sm flex items-center gap-2"
+          >
+            <i className="fa-solid fa-trash-can"></i>
+            Hapus Akun Permanen
+          </button>
+        </div>
+
       </div>
     </div>
   )

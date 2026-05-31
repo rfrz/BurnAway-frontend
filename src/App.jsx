@@ -6,6 +6,8 @@ import AuthPage from './pages/AuthPage'
 import Dashboard from './pages/Dashboard'
 import PredictPage from './pages/PredictPage'
 import ProfilePage from './pages/ProfilePage'
+import HistoryPage from './pages/HistoryPage'
+import PredictionDetailPage from './pages/PredictionDetailPage'
 import NotFound from './pages/NotFound'
 
 // Import Layouts
@@ -30,6 +32,8 @@ export default function App() {
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/predict" element={<PredictPage />} />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/history/:id" element={<PredictionDetailPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
 

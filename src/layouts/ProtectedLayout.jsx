@@ -1,38 +1,22 @@
-import { Routes, Route } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import DashboardLayout from './DashboardLayout'
 
-// Import Halaman
-import LandingPage from './pages/LandingPage'
-import AuthPage from './pages/AuthPage'
-import Dashboard from './pages/Dashboard'
-import PredictPage from './pages/PredictPage'
-import ProfilePage from './pages/ProfilePage'
-import NotFound from './pages/NotFound'
+export default function ProtectedLayout() {
+  const { isAuthenticated, isLoading } = useAuth()
 
-// Import Layouts
-import ProtectedLayout from './layouts/ProtectedLayout'
-import PublicLayout from './layouts/PublicLayout'
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+        <div className="w-8 h-8 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    )
+  }
 
-export default function App() {
-  return (
-    <Routes>
-      {/* Rute Bebas Murni (Landing Page tetap bisa diakses siapa saja) */}
-      <Route path="/" element={<LandingPage />} />
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
 
-      {/* Rute Publik Terbatas (Hanya untuk yang BELUM login) */}
-      <Route element={<PublicLayout />}>
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/register" element={<AuthPage />} />
-      </Route>
-
-      {/* Rute Terkunci (Hanya untuk yang SUDAH login) */}
-      <Route element={<ProtectedLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/predict" element={<PredictPage />} />
-        <Route path="/profile" element={<ProfilePage />} /> {/* Tambahan rute profil di sini */}
-      </Route>
-
-      {/* Penangkap URL Nyasar */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  )
+  // Jika sudah login, render DashboardLayout
+  return <DashboardLayout />
 }

@@ -10,19 +10,19 @@ export default function Navbar() {
       
       {/* KIRI: Logo */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-[#23b1f5] dark:bg-emerald-500 rounded-lg flex items-center justify-center text-white font-bold">
+        <div className="w-10 h-10 bg-brand rounded-lg flex items-center justify-center text-white font-bold">
           <i className="fa-solid fa-fire-flame-curved"></i>
         </div>
         <div className="text-2xl font-bold tracking-tighter text-slate-900 dark:text-white">
-          Burn<span className="text-[#23b1f5] dark:text-emerald-500">Away</span>
+          Burn<span className="text-brand">Away</span>
         </div>
       </div>
       
       {/* TENGAH: Tautan Teks (Hanya muncul di layar laptop/lebar) */}
       <div className="hidden md:flex gap-8 items-center text-sm font-medium">
-        <a href="#features" className="hover:text-[#23b1f5] dark:hover:text-emerald-400 transition-colors text-slate-600 dark:text-slate-300">Features</a>
-        <a href="#how" className="hover:text-[#23b1f5] dark:hover:text-emerald-400 transition-colors text-slate-600 dark:text-slate-300">How it Works</a>
-        <a href="#about" className="hover:text-[#23b1f5] dark:hover:text-emerald-400 transition-colors text-slate-600 dark:text-slate-300">About Us</a>
+        <a href="#features" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">Features</a>
+        <a href="#how" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">How it Works</a>
+        <a href="#about" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">About Us</a>
       </div>
 
       {/* KANAN: Pengaturan & Auth (SELALU MUNCUL di semua ukuran layar) */}
@@ -44,7 +44,7 @@ export default function Navbar() {
         <Link to="/login" className="font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
           {t('nav.login')}
         </Link>
-        <Link to="/register" className="bg-[#23b1f5] dark:bg-emerald-500 text-white dark:text-slate-950 font-bold px-4 py-2 rounded-xl hover:scale-105 transition-transform shadow-md text-xs md:text-sm">
+        <Link to="/register" className="bg-brand text-white font-bold px-4 py-2 rounded-xl hover:bg-brand-hover transition-colors shadow-md text-xs md:text-sm">
           {t('nav.register')}
         </Link>
       </div>

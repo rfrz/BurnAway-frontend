@@ -8,4 +8,12 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://host.docker.internal:3000',
+        changeOrigin: true,
+      }
+    }
+  }
 })

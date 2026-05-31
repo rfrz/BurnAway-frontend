@@ -3,22 +3,9 @@
     "login": "Masuk",
     "register": "Daftar",
     "dashboard": "Dasbor",
-    "profile": "Profil"
-  },
-  "landing": {
-    "hero_title": "Prediksi dan Cegah Burnout untuk Programmer",
-    "hero_subtitle": "Analisis kebiasaan kerja, pola tidur, dan metrik harianmu. Bersama menuju keseimbangan hidup dan kerja yang lebih sehat.",
-    "cta_button": "Mulai Prediksi"
-  },
-  "auth": {
-    "email_label": "Alamat Email",
-    "password_label": "Kata Sandi",
-    "name_label": "Nama Lengkap",
-    "register_submit": "Buat Akun Sekarang"
-  },
-  "dashboard": {
-    "greeting": "Halo",
-    "logout": "Keluar",
-    "ai_insight_title": "Hasil Analisis AI"
+    "predict": "Prediksi Baru",
+    "history": "Riwayat",
+    "profile": "Profil",
+    "logout": "Keluar"
   }
 }
