@@ -1,0 +1,24 @@
+{
+  "nav": {
+    "login": "Login",
+    "register": "Sign Up",
+    "dashboard": "Dashboard",
+    "profile": "Profile"
+  },
+  "landing": {
+    "hero_title": "Predict and Prevent Burnout for Progammers",
+    "hero_subtitle": "Analyze your work habits, sleep patterns, and daily metrics. Let's have a healthier work-life balance.",
+    "cta_button": "Start Prediction"
+  },
+  "auth": {
+    "email_label": "Email Address",
+    "password_label": "Password",
+    "name_label": "Full Name",
+    "register_submit": "Create Account Now"
+  },
+  "dashboard": {
+    "greeting": "Hello",
+    "logout": "Logout",
+    "ai_insight_title": "AI Analysis Result"
+  }
+}
