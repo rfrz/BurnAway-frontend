@@ -13,7 +13,7 @@ const getProfileFormData = (user) => ({
 
 export default function ProfilePage() {
   const navigate = useNavigate()
-  const { user, updateUser, deleteAccount } = useAuth()
+  const { user, updateUser, updatePassword, deleteAccount } = useAuth()
   const { t } = useLanguage()
   
   const [formData, setFormData] = useState(null)
@@ -21,6 +21,16 @@ export default function ProfilePage() {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+
+  const [passwordData, setPasswordData] = useState({
+    current_password: '',
+    new_password: '',
+    confirm_new_password: ''
+  })
+  const [isPasswordLoading, setIsPasswordLoading] = useState(false)
+  const [passwordMessage, setPasswordMessage] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const handleChange = (e) => {
@@ -49,6 +59,41 @@ export default function ProfilePage() {
       setError(t('profile.save_error'))
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handlePasswordChange = (e) => {
+    setPasswordData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault()
+    setIsPasswordLoading(true)
+    setPasswordMessage('')
+    setPasswordError('')
+    
+    if (passwordData.new_password !== passwordData.confirm_new_password) {
+      setPasswordError(t('errors.password_mismatch'))
+      setIsPasswordLoading(false)
+      return
+    }
+    
+    try {
+      const result = await updatePassword({
+        current_password: passwordData.current_password,
+        new_password: passwordData.new_password
+      })
+      
+      if (result.success) {
+        setPasswordMessage(t('profile.password_success'))
+        setPasswordData({ current_password: '', new_password: '', confirm_new_password: '' })
+      } else {
+        setPasswordError(result.error || t('errors.password_update_failed'))
+      }
+    } catch {
+      setPasswordError(t('profile.password_error'))
+    } finally {
+      setIsPasswordLoading(false)
     }
   }
 
@@ -156,6 +201,81 @@ export default function ProfilePage() {
                 className="bg-brand text-white font-bold py-3 px-8 rounded-xl hover:bg-brand-hover active:scale-95 transition-all shadow-md flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isLoading ? <i className="fa-solid fa-circle-notch fa-spin"></i> : <i className="fa-solid fa-save"></i>}
+                {t('profile.save')}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Password Update Section */}
+        <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm mb-8">
+          <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white flex items-center gap-2">
+            <i className="fa-solid fa-lock text-brand"></i>
+            {t('profile.change_password')}
+          </h2>
+
+          {passwordMessage && (
+            <div className="alert-banner alert-success mb-6">
+              <i className="fa-solid fa-circle-check"></i>
+              {passwordMessage}
+            </div>
+          )}
+
+          {passwordError && (
+            <div className="alert-banner alert-error mb-6">
+              <i className="fa-solid fa-circle-exclamation"></i>
+              {passwordError}
+            </div>
+          )}
+          
+          <form onSubmit={handlePasswordSubmit} className="space-y-5">
+            <div>
+              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">{t('profile.current_password')}</label>
+              <input 
+                type="password" 
+                name="current_password"
+                value={passwordData.current_password}
+                onChange={handlePasswordChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand dark:focus:ring-brand/50 outline-none transition-all"
+              />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">{t('profile.new_password')}</label>
+                <input 
+                  type="password" 
+                  name="new_password"
+                  value={passwordData.new_password}
+                  onChange={handlePasswordChange}
+                  required
+                  minLength={8}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand dark:focus:ring-brand/50 outline-none transition-all"
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1 block">{t('profile.confirm_new_password')}</label>
+                <input 
+                  type="password" 
+                  name="confirm_new_password"
+                  value={passwordData.confirm_new_password}
+                  onChange={handlePasswordChange}
+                  required
+                  minLength={8}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand dark:focus:ring-brand/50 outline-none transition-all"
+                />
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-end">
+              <button 
+                type="submit"
+                disabled={isPasswordLoading}
+                className="bg-brand text-white font-bold py-3 px-8 rounded-xl hover:bg-brand-hover active:scale-95 transition-all shadow-md flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isPasswordLoading ? <i className="fa-solid fa-circle-notch fa-spin"></i> : <i className="fa-solid fa-save"></i>}
                 {t('profile.save')}
               </button>
             </div>

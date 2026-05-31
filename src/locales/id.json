@@ -170,7 +170,13 @@
     "danger_desc": "Menghapus akun akan menghapus semua riwayat prediksi dan data personal Anda secara permanen. Tindakan ini tidak dapat dibatalkan.",
     "delete_account": "Hapus Akun Permanen",
     "delete_modal_title": "Hapus Akun Permanen",
-    "delete_modal_message": "Apakah Anda yakin ingin menghapus akun ini secara permanen? Semua data riwayat dan profil akan hilang dan tidak dapat dipulihkan."
+    "delete_modal_message": "Apakah Anda yakin ingin menghapus akun ini secara permanen? Semua data riwayat dan profil akan hilang dan tidak dapat dipulihkan.",
+    "change_password": "Ubah Password",
+    "current_password": "Password Saat Ini",
+    "new_password": "Password Baru",
+    "confirm_new_password": "Konfirmasi Password Baru",
+    "password_success": "Password berhasil diubah!",
+    "password_error": "Terjadi kesalahan saat mengubah password."
   },
   "modal": {
     "confirm_delete": "Hapus",
@@ -181,6 +187,7 @@
     "register_failed": "Registrasi gagal",
     "update_failed": "Update gagal",
     "password_update_failed": "Update password gagal",
-    "account_delete_failed": "Gagal menghapus akun"
+    "account_delete_failed": "Gagal menghapus akun",
+    "password_mismatch": "Konfirmasi password tidak cocok dengan password baru."
   }
 }

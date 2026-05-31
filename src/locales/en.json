@@ -170,7 +170,13 @@
     "danger_desc": "Deleting your account will permanently delete all prediction history and personal data. This action cannot be undone.",
     "delete_account": "Delete Account Permanently",
     "delete_modal_title": "Delete Account Permanently",
-    "delete_modal_message": "Are you sure you want to permanently delete this account? All history and profile data will be lost and cannot be restored."
+    "delete_modal_message": "Are you sure you want to permanently delete this account? All history and profile data will be lost and cannot be restored.",
+    "change_password": "Change Password",
+    "current_password": "Current Password",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
+    "password_success": "Password changed successfully!",
+    "password_error": "An error occurred while changing your password."
   },
   "modal": {
     "confirm_delete": "Delete",
@@ -181,6 +187,7 @@
     "register_failed": "Registration failed",
     "update_failed": "Update failed",
     "password_update_failed": "Password update failed",
-    "account_delete_failed": "Account deletion failed"
+    "account_delete_failed": "Account deletion failed",
+    "password_mismatch": "Password confirmation does not match the new password."
   }
 }
