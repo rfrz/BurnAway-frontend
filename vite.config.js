@@ -9,6 +9,10 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
+    watch: {
+      usePolling: true,
+      interval: 300,
+    },
     proxy: {
       '/api': {
         target: 'http://host.docker.internal:3000',
