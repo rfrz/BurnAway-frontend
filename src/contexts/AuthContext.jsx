@@ -1,13 +1,19 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../services/api';
-
-const AuthContext = createContext();
+import { AuthContext } from './authContext.js';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem('burnaway_token') || null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const clearAuthState = () => {
+    localStorage.removeItem('burnaway_token');
+    setToken(null);
+    setUser(null);
+    setIsAuthenticated(false);
+  };
 
   // Auto-fetch user on mount if token exists
   useEffect(() => {
@@ -19,7 +25,7 @@ export function AuthProvider({ children }) {
           setIsAuthenticated(true);
         } catch (error) {
           console.error("Auth init failed", error);
-          logout();
+          clearAuthState();
         }
       }
       setIsLoading(false);
@@ -63,10 +69,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    localStorage.removeItem('burnaway_token');
-    setToken(null);
-    setUser(null);
-    setIsAuthenticated(false);
+    clearAuthState();
   };
 
   const updateUser = async (data) => {
@@ -122,11 +125,3 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};

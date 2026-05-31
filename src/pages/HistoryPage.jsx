@@ -38,7 +38,7 @@ export default function HistoryPage() {
     try {
       await api.deletePrediction(deleteTargetId)
       setPredictions((prev) => prev.filter(pred => pred.id !== deleteTargetId))
-    } catch (err) {
+    } catch {
       alert('Gagal menghapus prediksi.')
     } finally {
       setIsDeleteModalOpen(false)

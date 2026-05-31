@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../hooks/useAuth.js';
+import { useLanguage } from '../hooks/useLanguage.js';
+import { useTheme } from '../hooks/useTheme.js';
 
 export default function DashboardLayout() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -12,11 +12,6 @@ export default function DashboardLayout() {
   const { t, language, changeLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const [showUserMenu, setShowUserMenu] = useState(false);
-
-  // Close mobile drawer on route change
-  useEffect(() => {
-    setIsMobileOpen(false);
-  }, [location.pathname]);
 
   const navItems = [
     { path: '/dashboard', icon: 'fa-chart-pie', label: t('nav.dashboard') || 'Dasbor' },
@@ -59,7 +54,7 @@ export default function DashboardLayout() {
         {/* Sidebar Header */}
         <div className={`h-20 flex items-center border-b border-slate-200 dark:border-slate-800 shrink-0 ${isCollapsed ? 'justify-center px-4' : 'justify-between px-6'}`}>
           {!isCollapsed && (
-            <Link to="/dashboard" className="flex items-center gap-3 overflow-hidden">
+            <Link to="/" className="flex items-center gap-3 overflow-hidden">
               <img
                 src="/assets/logo-burnaway.png"
                 alt="BurnAway"
@@ -94,6 +89,7 @@ export default function DashboardLayout() {
               <Link
                 key={item.path}
                 to={item.path}
+                onClick={() => setIsMobileOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${
                   isActive 
                     ? 'bg-brand text-white shadow-md shadow-brand/20 font-bold' 
@@ -195,7 +191,7 @@ export default function DashboardLayout() {
             <i className="fa-solid fa-bars text-xl"></i>
           </button>
 
-          <Link to="/dashboard" className="flex items-center gap-2 min-w-0 overflow-hidden">
+          <Link to="/" className="flex items-center gap-2 min-w-0 overflow-hidden">
             <img
               src="/assets/logo-burnaway.png"
               alt="BurnAway"

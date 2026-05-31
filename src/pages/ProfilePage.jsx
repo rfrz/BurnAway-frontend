@@ -1,37 +1,28 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../hooks/useAuth.js'
 import ConfirmModal from '../components/common/ConfirmModal'
+
+const getProfileFormData = (user) => ({
+  username: user?.username || '',
+  email: user?.email || '',
+  birth_date: user?.birth_date ? new Date(user.birth_date).toISOString().split('T')[0] : '',
+  experience_years: user?.experience_years?.toString() || ''
+})
 
 export default function ProfilePage() {
   const navigate = useNavigate()
   const { user, updateUser, deleteAccount } = useAuth()
   
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    birth_date: '',
-    experience_years: ''
-  })
-  
+  const [formData, setFormData] = useState(null)
+  const visibleFormData = formData || getProfileFormData(user)
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        username: user.username || '',
-        email: user.email || '',
-        birth_date: user.birth_date ? new Date(user.birth_date).toISOString().split('T')[0] : '',
-        experience_years: user.experience_years?.toString() || ''
-      })
-    }
-  }, [user])
-
   const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    setFormData(prev => ({ ...(prev || visibleFormData), [e.target.name]: e.target.value }))
   }
 
   const handleSave = async (e) => {
@@ -42,8 +33,8 @@ export default function ProfilePage() {
     
     try {
       const payload = {
-        ...formData,
-        experience_years: Number(formData.experience_years)
+        ...visibleFormData,
+        experience_years: Number(visibleFormData.experience_years)
       }
       const result = await updateUser(payload)
       
@@ -52,7 +43,7 @@ export default function ProfilePage() {
       } else {
         setError(result.error)
       }
-    } catch (err) {
+    } catch {
       setError('Terjadi kesalahan saat menyimpan profil.')
     } finally {
       setIsLoading(false)
@@ -110,7 +101,7 @@ export default function ProfilePage() {
               <input 
                 type="text" 
                 name="username"
-                value={formData.username}
+                value={visibleFormData.username}
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand dark:focus:ring-brand/50 outline-none transition-all"
@@ -122,7 +113,7 @@ export default function ProfilePage() {
               <input 
                 type="email" 
                 name="email"
-                value={formData.email}
+                value={visibleFormData.email}
                 disabled
                 className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-slate-500 cursor-not-allowed outline-none"
               />
@@ -135,7 +126,7 @@ export default function ProfilePage() {
                 <input 
                   type="date" 
                   name="birth_date"
-                  value={formData.birth_date}
+                  value={visibleFormData.birth_date}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand dark:focus:ring-brand/50 outline-none transition-all"
@@ -147,7 +138,7 @@ export default function ProfilePage() {
                 <input 
                   type="number" 
                   name="experience_years"
-                  value={formData.experience_years}
+                  value={visibleFormData.experience_years}
                   onChange={handleChange}
                   required
                   min="0"

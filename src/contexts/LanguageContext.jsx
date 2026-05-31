@@ -1,8 +1,7 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import idLocale from '../locales/id.json';
 import enLocale from '../locales/en.json';
-
-const LanguageContext = createContext();
+import { LanguageContext } from './languageContext.js';
 
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState(() => {
@@ -45,11 +44,3 @@ export function LanguageProvider({ children }) {
     </LanguageContext.Provider>
   );
 }
-
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (context === undefined) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
-  return context;
-};

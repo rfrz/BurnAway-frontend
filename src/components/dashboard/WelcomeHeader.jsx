@@ -1,4 +1,4 @@
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../hooks/useAuth.js'
 
 export default function WelcomeHeader() {
   const { user } = useAuth()

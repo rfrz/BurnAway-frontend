@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import LoginForm from '../components/auth/LoginForm'
 import RegisterForm from '../components/auth/RegisterForm'
-import { useLanguage } from '../contexts/LanguageContext'
+import { useLanguage } from '../hooks/useLanguage.js'
 
 export default function AuthPage() {
   const location = useLocation()
@@ -10,10 +10,6 @@ export default function AuthPage() {
   
   // State untuk melacak tab mana yang sedang aktif
   const [activeTab, setActiveTab] = useState(location.pathname === '/register' ? 'register' : 'login')
-
-  useEffect(() => {
-    setActiveTab(location.pathname === '/register' ? 'register' : 'login')
-  }, [location.pathname])
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-[#0f172a] p-4 transition-colors duration-300">

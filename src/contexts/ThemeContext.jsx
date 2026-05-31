@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-
-const ThemeContext = createContext();
+import { useEffect, useMemo, useState } from 'react';
+import { ThemeContext } from './themeContext.js';
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
@@ -8,51 +7,37 @@ export function ThemeProvider({ children }) {
     return savedTheme || 'system';
   });
 
-  const [isDark, setIsDark] = useState(false);
+  const [prefersDark, setPrefersDark] = useState(() => {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  const isDark = useMemo(() => {
+    return theme === 'system' ? prefersDark : theme === 'dark';
+  }, [prefersDark, theme]);
 
   useEffect(() => {
     const root = window.document.documentElement;
 
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      setIsDark(systemTheme === 'dark');
-      if (systemTheme === 'dark') {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
+    if (isDark) {
+      root.classList.add('dark');
     } else {
-      setIsDark(theme === 'dark');
-      if (theme === 'dark') {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
+      root.classList.remove('dark');
     }
 
     localStorage.setItem('burnaway_theme', theme);
-  }, [theme]);
+  }, [isDark, theme]);
 
   // Listen to system theme changes if in 'system' mode
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-    const handleChange = () => {
-      if (theme === 'system') {
-        const systemTheme = mediaQuery.matches ? 'dark' : 'light';
-        setIsDark(systemTheme === 'dark');
-        const root = window.document.documentElement;
-        if (systemTheme === 'dark') {
-          root.classList.add('dark');
-        } else {
-          root.classList.remove('dark');
-        }
-      }
+    const handleChange = (event) => {
+      setPrefersDark(event.matches);
     };
 
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [theme]);
+  }, []);
 
   const toggleTheme = () => {
     if (theme === 'light') setTheme('dark');
@@ -67,10 +52,3 @@ export function ThemeProvider({ children }) {
   );
 }
 
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
-};

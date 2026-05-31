@@ -17,7 +17,7 @@ export default function PredictionDetailPage() {
       try {
         const data = await api.getPrediction(id)
         setPrediction(data)
-      } catch (err) {
+      } catch {
         setError('Detail prediksi tidak ditemukan.')
       } finally {
         setIsLoading(false)
@@ -30,7 +30,7 @@ export default function PredictionDetailPage() {
     try {
       await api.deletePrediction(id)
       navigate('/history')
-    } catch (err) {
+    } catch {
       alert('Gagal menghapus prediksi.')
     }
   }

@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../hooks/useAuth.js'
 
 export default function PublicLayout() {
   const { isAuthenticated, isLoading } = useAuth()

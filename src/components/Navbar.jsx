@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
-import { useLanguage } from '../contexts/LanguageContext.jsx'
-import { useAuth } from '../contexts/AuthContext.jsx'
+import { useLanguage } from '../hooks/useLanguage.js'
+import { useAuth } from '../hooks/useAuth.js'
 import ThemeToggle from './ThemeToggle.jsx'
 
 export default function Navbar() {

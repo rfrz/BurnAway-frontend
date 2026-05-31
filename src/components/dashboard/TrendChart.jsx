@@ -1,5 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { useTheme } from '../../contexts/ThemeContext'
+import { useTheme } from '../../hooks/useTheme.js'
 import { normalizeBurnoutLevel } from '../../utils/prediction'
 
 const BURNOUT_SCORES = {

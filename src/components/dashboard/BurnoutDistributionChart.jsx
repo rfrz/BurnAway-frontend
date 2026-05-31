@@ -1,5 +1,5 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
-import { useTheme } from '../../contexts/ThemeContext'
+import { useTheme } from '../../hooks/useTheme.js'
 import { normalizeBurnoutLevel } from '../../utils/prediction'
 
 const LEVELS = [

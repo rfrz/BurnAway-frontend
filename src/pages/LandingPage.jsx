@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-import { useLanguage } from '../contexts/LanguageContext.jsx'
-import { useAuth } from '../contexts/AuthContext.jsx'
+import { useLanguage } from '../hooks/useLanguage.js'
+import { useAuth } from '../hooks/useAuth.js'
 
 export default function LandingPage() {
   const { t } = useLanguage()

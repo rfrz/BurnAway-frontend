@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import MetricForm from '../components/predict/MetricForm'
 import ResultCard from '../components/predict/ResultCard'
 import api from '../services/api'
 
 export default function PredictPage() {
-  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     daily_work_hours: '',
     sleep_hours: '',
