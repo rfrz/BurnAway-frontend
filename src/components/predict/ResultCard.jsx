@@ -34,11 +34,11 @@ export default function ResultCard({ data, onReset }) {
         }
       case "Low":
         return {
-          bg: "bg-emerald-50 dark:bg-emerald-500/10",
-          border: "border-emerald-200 dark:border-emerald-500/20",
-          text: "text-emerald-700 dark:text-emerald-400",
+          bg: "bg-emerald-50 dark:bg-[#23b1f5]/10",
+          border: "border-emerald-200 dark:border-[#23b1f5]/20",
+          text: "text-emerald-700 dark:text-[#23b1f5]",
           icon: "fa-circle-check",
-          ring: "ring-emerald-100 dark:ring-emerald-500/20",
+          ring: "ring-emerald-100 dark:ring-[#23b1f5]/20",
           title: "Risiko Rendah"
         }
       default:

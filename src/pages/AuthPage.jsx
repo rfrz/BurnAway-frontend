@@ -19,10 +19,12 @@ export default function AuthPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-[#0f172a] p-4 transition-colors duration-300">
       
       {/* Logo Link to Home */}
-      <Link to="/" className="flex items-center gap-3 mb-8 hover:scale-105 transition-transform">
-        <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
-          <i className="fa-solid fa-fire-flame-curved"></i>
-        </div>
+      <Link to="/" className="flex items-center gap-3 mb-8 hover:scale-105 transition-transform" aria-label="BurnAway home">
+        <img
+          src="/assets/logo-burnaway.png"
+          alt="BurnAway"
+          className="w-12 h-12 md:w-14 md:h-14 object-contain shrink-0 drop-shadow-lg"
+        />
         <div className="text-3xl font-bold tracking-tighter text-slate-900 dark:text-white">
           Burn<span className="text-brand">Away</span>
         </div>

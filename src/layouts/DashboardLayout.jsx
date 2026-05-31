@@ -57,17 +57,19 @@ export default function DashboardLayout() {
         `}
       >
         {/* Sidebar Header */}
-        <div className="h-20 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-800 shrink-0">
-          <Link to="/dashboard" className={`flex items-center gap-3 overflow-hidden ${isCollapsed ? 'justify-center w-full' : ''}`}>
-            <div className="w-10 h-10 shrink-0 bg-brand rounded-lg flex items-center justify-center text-white font-bold">
-              <i className="fa-solid fa-fire-flame-curved"></i>
-            </div>
-            {!isCollapsed && (
+        <div className={`h-20 flex items-center border-b border-slate-200 dark:border-slate-800 shrink-0 ${isCollapsed ? 'justify-end px-4' : 'justify-between px-6'}`}>
+          {!isCollapsed && (
+            <Link to="/dashboard" className="flex items-center gap-3 overflow-hidden">
+              <img
+                src="/assets/logo-burnaway.png"
+                alt="BurnAway"
+                className="w-10 h-10 object-contain shrink-0"
+              />
               <div className="text-xl font-bold tracking-tighter text-slate-900 dark:text-white whitespace-nowrap">
                 Burn<span className="text-brand">Away</span>
               </div>
-            )}
-          </Link>
+            </Link>
+          )}
           
           <button 
             className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
@@ -184,21 +186,25 @@ export default function DashboardLayout() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         {/* Mobile Topbar */}
-        <div className="lg:hidden h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-4 shrink-0 justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-white font-bold text-sm">
-              <i className="fa-solid fa-fire-flame-curved"></i>
-            </div>
-            <div className="text-lg font-bold tracking-tighter text-slate-900 dark:text-white">
-              Burn<span className="text-brand">Away</span>
-            </div>
-          </div>
+        <div className="lg:hidden h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-4 shrink-0 gap-3">
           <button 
-            className="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300"
+            className="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 shrink-0"
             onClick={() => setIsMobileOpen(true)}
+            aria-label="Buka menu"
           >
             <i className="fa-solid fa-bars text-xl"></i>
           </button>
+
+          <Link to="/dashboard" className="flex items-center gap-2 min-w-0 overflow-hidden">
+            <img
+              src="/assets/logo-burnaway.png"
+              alt="BurnAway"
+              className="w-8 h-8 object-contain shrink-0"
+            />
+            <div className="text-lg font-bold tracking-tighter text-slate-900 dark:text-white whitespace-nowrap truncate">
+              Burn<span className="text-brand">Away</span>
+            </div>
+          </Link>
         </div>
 
         {/* Content Area with scroll */}

@@ -27,7 +27,7 @@ export default function LandingPage() {
               {t('landing.hero_subtitle')}
             </p>
             <div className="flex gap-4">
-              <Link to="/register" className="bg-[#23b1f5] text-white dark:bg-emerald-500 dark:text-slate-950 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-lg">
+              <Link to="/register" className="bg-[#23b1f5] text-white dark:bg-[#23b1f5] dark:text-slate-950 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-lg">
                 {t('landing.cta_button')}
               </Link>
               <a href="#how" className="border border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all">
@@ -49,8 +49,8 @@ export default function LandingPage() {
               { icon: 'fa-bolt', title: 'Instant Recovery', desc: 'Actionable micro-interventions to reset your nervous system in minutes.' }
             ].map((f, i) => (
               <div key={i} className="group p-10 bg-white dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/50 rounded-3xl hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm dark:shadow-none transition-all hover:-translate-y-2">
-                <div className="w-14 h-14 bg-[#98deff]/30 dark:bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#23b1f5] dark:group-hover:bg-emerald-500 transition-colors">
-                  <i className={`fa-solid ${f.icon} text-[#23b1f5] dark:text-emerald-400 text-2xl group-hover:text-white dark:group-hover:text-slate-950`}></i>
+                <div className="w-14 h-14 bg-[#98deff]/30 dark:bg-[#23b1f5]/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#23b1f5] dark:group-hover:bg-[#23b1f5] transition-colors">
+                  <i className={`fa-solid ${f.icon} text-[#23b1f5] dark:text-[#23b1f5] text-2xl group-hover:text-white dark:group-hover:text-slate-950`}></i>
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">{f.title}</h3>
                 <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{f.desc}</p>
@@ -61,7 +61,7 @@ export default function LandingPage() {
       </section>
 
       {/* 4. How it Works */}
-      <section id="how" className="py-24 bg-[#23b1f5] dark:bg-emerald-500 text-white dark:text-slate-950 transition-colors duration-300">
+      <section id="how" className="py-24 bg-[#23b1f5] dark:bg-[#23b1f5] text-white dark:text-slate-950 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-5xl font-black mb-16 text-center uppercase tracking-tighter">How BurnAway Works</h2>
           <div className="grid md:grid-cols-4 gap-12 text-center">
@@ -79,14 +79,14 @@ export default function LandingPage() {
       {/* 5. About Us */}
       <section id="about" className="py-24 px-6">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-16 items-center">
-         <div className="w-64 h-64 rounded-full border-8 border-[#23b1f5] dark:border-emerald-500/20 shadow-xl shadow-[#98deff]/40 dark:shadow-none overflow-hidden shrink-0 transition-all duration-300">
+         <div className="w-64 h-64 rounded-full border-8 border-[#23b1f5] dark:border-[#23b1f5]/20 shadow-xl shadow-[#98deff]/40 dark:shadow-none overflow-hidden shrink-0 transition-all duration-300">
          <img 
           src="https://placehold.co/400x400/f8fafc/23b1f5?text=Team" 
           alt="About" 
           className="w-full h-full object-cover dark:hidden" 
          />
          <img 
-            src="https://placehold.co/400x400/1e293b/10b981?text=Team" 
+            src="https://placehold.co/400x400/1e293b/23b1f5?text=Team" 
             alt="About" 
             className="w-full h-full object-cover hidden dark:block" 
          />
@@ -96,7 +96,7 @@ export default function LandingPage() {
             <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
               BurnAway lahir dari kebutuhan akan sistem pendukung performa yang berkelanjutan. 
             </p>
-            <p className="text-[#23b1f5] dark:text-emerald-400 font-bold">— The BurnAway Founding Team</p>
+            <p className="text-[#23b1f5] dark:text-[#23b1f5] font-bold">— The BurnAway Founding Team</p>
           </div>
         </div>
       </section>

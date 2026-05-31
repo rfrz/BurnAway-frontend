@@ -8,7 +8,7 @@
   @apply bg-red-50 text-red-600 border border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20;
 }
 .alert-success {
-  @apply bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20;
+  @apply bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-[#23b1f5]/10 dark:text-[#23b1f5] dark:border-[#23b1f5]/20;
 }
 
 /* Custom Scrollbar */

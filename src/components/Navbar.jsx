@@ -9,14 +9,16 @@ export default function Navbar() {
     <nav className="flex justify-between items-center h-20 px-6 w-full max-w-7xl mx-auto">
       
       {/* KIRI: Logo */}
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-brand rounded-lg flex items-center justify-center text-white font-bold">
-          <i className="fa-solid fa-fire-flame-curved"></i>
-        </div>
+      <Link to="/" className="flex items-center gap-3 group" aria-label="BurnAway home">
+        <img
+          src="/assets/logo-burnaway.png"
+          alt="BurnAway"
+          className="w-10 h-10 object-contain shrink-0 drop-shadow-sm"
+        />
         <div className="text-2xl font-bold tracking-tighter text-slate-900 dark:text-white">
           Burn<span className="text-brand">Away</span>
         </div>
-      </div>
+      </Link>
       
       {/* TENGAH: Tautan Teks (Hanya muncul di layar laptop/lebar) */}
       <div className="hidden md:flex gap-8 items-center text-sm font-medium">
