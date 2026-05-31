@@ -14,7 +14,7 @@ export default function ProtectedLayout() {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/" replace />
   }
 
   // Jika sudah login, render DashboardLayout

@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext.jsx'
+import { useAuth } from '../contexts/AuthContext.jsx'
 import ThemeToggle from './ThemeToggle.jsx'
 
 export default function Navbar() {
   const { t, changeLanguage, language } = useLanguage()
+  const { isAuthenticated, logout } = useAuth()
 
   return (
     <nav className="flex justify-between items-center h-20 px-6 w-full max-w-7xl mx-auto">
@@ -43,12 +45,31 @@ export default function Navbar() {
         </select>
 
         {/* Tombol Masuk & Daftar */}
-        <Link to="/login" className="font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
-          {t('nav.login')}
-        </Link>
-        <Link to="/register" className="bg-brand text-white font-bold px-4 py-2 rounded-xl hover:bg-brand-hover transition-colors shadow-md text-xs md:text-sm">
-          {t('nav.register')}
-        </Link>
+        {isAuthenticated ? (
+          <>
+            <button 
+              onClick={logout} 
+              className="font-semibold text-slate-600 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 transition-colors"
+            >
+              {t('nav.logout')}
+            </button>
+            <Link 
+              to="/dashboard" 
+              className="bg-brand text-white font-bold px-4 py-2 rounded-xl hover:bg-brand-hover transition-colors shadow-md text-xs md:text-sm"
+            >
+              {t('nav.dashboard')}
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+              {t('nav.login')}
+            </Link>
+            <Link to="/register" className="bg-brand text-white font-bold px-4 py-2 rounded-xl hover:bg-brand-hover transition-colors shadow-md text-xs md:text-sm">
+              {t('nav.register')}
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   )

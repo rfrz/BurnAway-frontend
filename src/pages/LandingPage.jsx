@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { useLanguage } from '../contexts/LanguageContext.jsx'
+import { useAuth } from '../contexts/AuthContext.jsx'
 
 export default function LandingPage() {
   const { t } = useLanguage()
+  const { isAuthenticated } = useAuth()
 
   return (
     // Pembungkus utama halaman
@@ -27,9 +29,15 @@ export default function LandingPage() {
               {t('landing.hero_subtitle')}
             </p>
             <div className="flex gap-4">
-              <Link to="/register" className="bg-[#23b1f5] text-white dark:bg-[#23b1f5] dark:text-slate-950 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-lg">
-                {t('landing.cta_button')}
-              </Link>
+              {isAuthenticated ? (
+                <Link to="/dashboard" className="bg-[#23b1f5] text-white dark:bg-[#23b1f5] dark:text-slate-950 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-lg">
+                  {t('nav.dashboard') || 'Dashboard'}
+                </Link>
+              ) : (
+                <Link to="/register" className="bg-[#23b1f5] text-white dark:bg-[#23b1f5] dark:text-slate-950 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-lg">
+                  {t('landing.cta_button')}
+                </Link>
+              )}
               <a href="#how" className="border border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all">
                 How it Works
               </a>
