@@ -43,6 +43,15 @@ export default function LandingPage() {
               </a>
             </div>
           </div>
+
+          <div className="relative flex justify-center lg:justify-end">
+            <div className="absolute inset-8 bg-[#98deff]/40 dark:bg-[#23b1f5]/10 blur-3xl rounded-full"></div>
+            <img
+              src="/assets/hero illustration.svg"
+              alt="BurnAway hero illustration"
+              className="relative w-full max-w-[21rem] lg:max-w-[27rem] object-contain drop-shadow-2xl"
+            />
+          </div>
         </div>
       </section>
 
