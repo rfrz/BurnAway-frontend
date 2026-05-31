@@ -21,6 +21,22 @@ export default function HistoryPage() {
     fetchHistory()
   }, [])
 
+  // Fungsi untuk hapus history tanpa masuk ke detail
+  const handleDelete = async (e, id) => {
+    e.preventDefault(); // Mencegah masuk ke halaman detail
+    e.stopPropagation();
+
+    if (window.confirm('Hapus riwayat prediksi ini?')) {
+      try {
+        await api.deletePrediction(id)
+        // Hapus history di tampilan secara instan setelah berhasil di backend
+        setPredictions((prev) => prev.filter(pred => pred.id !== id))
+      } catch (err) {
+        alert('Gagal menghapus prediksi.')
+      }
+    }
+  }
+
   return (
     <div className="w-full min-h-screen py-8 px-4 sm:px-6 md:px-8 transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
@@ -74,21 +90,39 @@ export default function HistoryPage() {
                       </p>
                     )}
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-700/50 flex items-center justify-center text-slate-400 group-hover:bg-brand group-hover:text-white transition-colors">
-                    <i className={`fa-solid ${pred.id ? 'fa-chevron-right' : 'fa-circle-info'}`}></i>
+                  
+                  {/* Container Tombol Detail & Hapus */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-700/50 flex items-center justify-center text-slate-400 group-hover/card:bg-brand group-hover/card:text-white transition-colors">
+                      <i className={`fa-solid ${pred.id ? 'fa-chevron-right' : 'fa-circle-info'}`}></i>
+                    </div>
+                    {/* Tombol Hapus tampil di kanan menggunakan FontAwesome */}
+                    {pred.id && (
+                      <button
+                        onClick={(e) => handleDelete(e, pred.id)}
+                        className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white dark:hover:bg-red-600 transition-colors z-10"
+                        title="Hapus riwayat"
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </button>
+                    )}
                   </div>
                 </>
               )
 
-              const className = "bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group"
+              const cardClassName = "bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group/card w-full text-left"
 
-              return pred.id ? (
-                <Link key={pred.id} to={`/history/${pred.id}`} className={`${className} hover:shadow-md`}>
-                  {content}
-                </Link>
-              ) : (
-                <div key={`missing-id-${index}`} className={`${className} opacity-80`}>
-                  {content}
+              return (
+                <div key={pred.id || `missing-id-${index}`} className="relative group/item">
+                  {pred.id ? (
+                    <Link to={`/history/${pred.id}`} className={`${cardClassName} hover:shadow-md block`}>
+                      {content}
+                    </Link>
+                  ) : (
+                    <div className={`${cardClassName} opacity-80`}>
+                      {content}
+                    </div>
+                  )}
                 </div>
               )
             })}
