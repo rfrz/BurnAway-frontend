@@ -5,6 +5,18 @@ import ResultCard from '../components/predict/ResultCard'
 import ConfirmModal from '../components/common/ConfirmModal'
 import { useLanguage } from '../hooks/useLanguage.js'
 
+const metricKeys = [
+  { key: 'daily_work_hours', icon: 'fa-clock' },
+  { key: 'sleep_hours', icon: 'fa-moon' },
+  { key: 'caffeine_intake', icon: 'fa-coffee' },
+  { key: 'screen_time', icon: 'fa-laptop' },
+  { key: 'bugs_per_day', icon: 'fa-bug' },
+  { key: 'commits_per_day', icon: 'fa-code-branch' },
+  { key: 'meetings_per_day', icon: 'fa-people-group' },
+  { key: 'exercise_hours', icon: 'fa-heart-pulse' },
+  { key: 'stress_level', icon: 'fa-gauge-high' }
+]
+
 export default function PredictionDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -79,10 +91,44 @@ export default function PredictionDetailPage() {
           </p>
         </div>
 
-        <ResultCard 
-          data={prediction} 
-          onReset={() => navigate('/predict')} 
-        />
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+          <aside className="xl:col-span-5 bg-white dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div className="mb-5">
+              <h2 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                <i className="fa-solid fa-list-check text-brand"></i>
+                {t('history.input_title')}
+              </h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                {t('history.input_subtitle')}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-3">
+              {metricKeys.map((item) => (
+                <div key={item.key} className="flex items-center justify-between gap-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 p-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-xl bg-brand/10 dark:bg-brand/20 text-brand flex items-center justify-center shrink-0">
+                      <i className={`fa-solid ${item.icon}`}></i>
+                    </div>
+                    <span className="text-sm font-semibold text-slate-600 dark:text-slate-300 truncate">
+                      {t(`predict.fields.${item.key}`)}
+                    </span>
+                  </div>
+                  <span className="text-base font-black text-slate-900 dark:text-white shrink-0">
+                    {prediction[item.key] ?? t('common.unavailable')}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </aside>
+
+          <div className="xl:col-span-7">
+            <ResultCard 
+              data={prediction} 
+              onReset={() => navigate('/predict')} 
+            />
+          </div>
+        </div>
         
         <ConfirmModal 
           isOpen={isDeleteModalOpen}

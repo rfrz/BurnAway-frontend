@@ -153,7 +153,9 @@
     "modal_message": "Apakah Anda yakin ingin menghapus data riwayat ini? Data yang sudah dihapus tidak dapat dipulihkan.",
     "detail_missing": "Detail prediksi tidak ditemukan.",
     "delete_prediction_title": "Hapus Prediksi",
-    "analyzed_at": "Dianalisis pada: {date}"
+    "analyzed_at": "Dianalisis pada: {date}",
+    "input_title": "Data Input",
+    "input_subtitle": "Metrik yang digunakan untuk prediksi ini."
   },
   "profile": {
     "title": "Pengaturan Profil",
