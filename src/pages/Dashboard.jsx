@@ -1,16 +1,13 @@
 import { useState, useEffect } from 'react'
 import WelcomeHeader from '../components/dashboard/WelcomeHeader'
-import AIInsightCard from '../components/dashboard/AIInsightCard'
 import ActionCard from '../components/dashboard/ActionCard'
 import TrendChart from '../components/dashboard/TrendChart'
-import CategoryChart from '../components/dashboard/CategoryChart'
+import BurnoutDistributionChart from '../components/dashboard/BurnoutDistributionChart'
 import StatCard from '../components/dashboard/StatCard'
 import LatestPredictionCard from '../components/dashboard/LatestPredictionCard'
 import api from '../services/api'
-import { useAuth } from '../contexts/AuthContext'
 
 export default function Dashboard() {
-  const { user } = useAuth()
   const [predictions, setPredictions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -71,22 +68,22 @@ export default function Dashboard() {
 
         {/* Bento Layout Main Area */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-          
-          <div className="xl:col-span-8 flex flex-col gap-6">
-            <AIInsightCard advice={latestPrediction?.advice} />
-            
-            {/* Charts Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <TrendChart data={predictions} />
-              <CategoryChart prediction={latestPrediction} />
-            </div>
-          </div>
 
-          <div className="xl:col-span-4 flex flex-col gap-6">
-            <ActionCard />
+          <div className="xl:col-span-8">
             <LatestPredictionCard prediction={latestPrediction} />
           </div>
 
+          <div className="xl:col-span-4">
+            <ActionCard />
+          </div>
+
+          <div className="xl:col-span-8">
+            <TrendChart data={predictions} />
+          </div>
+
+          <div className="xl:col-span-4">
+            <BurnoutDistributionChart data={predictions} />
+          </div>
         </div>
       </div>
     </div>
