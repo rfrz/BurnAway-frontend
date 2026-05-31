@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import MarkdownContent from '../common/MarkdownContent';
 import { getBurnoutBadgeClass, normalizePrediction } from '../../utils/prediction';
 
 export default function LatestPredictionCard({ prediction }) {
@@ -33,16 +34,25 @@ export default function LatestPredictionCard({ prediction }) {
         </span>
       </div>
 
-      <div className="flex-1">
-        <p className="text-slate-600 dark:text-slate-300 text-sm mb-4 line-clamp-3">
-          {normalizedPrediction.advice || 'Tidak ada saran tersedia.'}
-        </p>
+      <div className="flex-1 mb-4 max-h-28 overflow-hidden">
+        <MarkdownContent
+          text={normalizedPrediction.advice}
+          fallback="Tidak ada saran tersedia."
+          compact
+          className="text-slate-600 dark:text-slate-300"
+        />
       </div>
 
       <div className="mt-auto flex gap-2">
-        <Link to={`/history/${normalizedPrediction.id}`} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-2 px-4 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-center text-sm">
-          Detail Lengkap
-        </Link>
+        {normalizedPrediction.id ? (
+          <Link to={`/history/${normalizedPrediction.id}`} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-2 px-4 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-center text-sm">
+            Detail Lengkap
+          </Link>
+        ) : (
+          <span className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500 font-bold py-2 px-4 rounded-xl text-center text-sm cursor-not-allowed">
+            Detail tidak tersedia
+          </span>
+        )}
       </div>
     </div>
   )

@@ -1,4 +1,8 @@
+import MarkdownContent from '../common/MarkdownContent'
+
 export default function AIInsightCard({ advice }) {
+  const fallback = "Belum ada prediksi yang dilakukan. Yuk, cek tingkat stres kerjamu sekarang!"
+
   return (
     <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-300">
       
@@ -13,9 +17,11 @@ export default function AIInsightCard({ advice }) {
         <div className="absolute top-6 left-6 text-slate-200 dark:text-slate-800 text-4xl">
           <i className="fa-solid fa-quote-left"></i>
         </div>
-        <p className="text-slate-700 dark:text-slate-300 relative z-10 pl-8 text-lg font-medium leading-relaxed italic">
-          {advice || "Belum ada prediksi yang dilakukan. Yuk, cek tingkat stres kerjamu sekarang!"}
-        </p>
+        <MarkdownContent
+          text={advice}
+          fallback={fallback}
+          className="relative z-10 pl-8 text-lg font-medium italic"
+        />
       </div>
 
     </div>

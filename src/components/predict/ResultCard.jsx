@@ -1,3 +1,4 @@
+import MarkdownContent from '../common/MarkdownContent'
 import { normalizePrediction } from '../../utils/prediction'
 
 export default function ResultCard({ data, onReset }) {
@@ -107,11 +108,7 @@ export default function ResultCard({ data, onReset }) {
             <i className="fa-solid fa-wand-magic-sparkles text-brand"></i>
             Saran & Tindakan Preventif
           </h3>
-          <div className="prose prose-slate dark:prose-invert max-w-none">
-            <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-              {advice}
-            </p>
-          </div>
+          <MarkdownContent text={advice} className="font-medium" />
         </div>
 
       </div>
