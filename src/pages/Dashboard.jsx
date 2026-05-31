@@ -52,7 +52,7 @@ export default function Dashboard() {
             title={t('dashboard.stats.total_predictions')} 
             value={totalPredictions} 
             icon="fa-chart-simple" 
-            colorClass="bg-blue-500 dark:bg-blue-600" 
+            colorClass="bg-brand" 
           />
           <StatCard 
             title={t('dashboard.stats.high_risk')} 
