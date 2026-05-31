@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import api from '../services/api'
 import ResultCard from '../components/predict/ResultCard'
+import ConfirmModal from '../components/common/ConfirmModal'
 
 export default function PredictionDetailPage() {
   const { id } = useParams()
@@ -9,6 +10,7 @@ export default function PredictionDetailPage() {
   const [prediction, setPrediction] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -25,13 +27,11 @@ export default function PredictionDetailPage() {
   }, [id])
 
   const handleDelete = async () => {
-    if (window.confirm('Hapus riwayat prediksi ini?')) {
-      try {
-        await api.deletePrediction(id)
-        navigate('/history')
-      } catch (err) {
-        alert('Gagal menghapus prediksi.')
-      }
+    try {
+      await api.deletePrediction(id)
+      navigate('/history')
+    } catch (err) {
+      alert('Gagal menghapus prediksi.')
     }
   }
 
@@ -61,7 +61,7 @@ export default function PredictionDetailPage() {
           </Link>
           <div className="flex gap-2">
             <button 
-              onClick={handleDelete}
+              onClick={() => setIsDeleteModalOpen(true)}
               className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 font-bold py-2 px-4 rounded-lg transition-colors border border-red-200 dark:border-red-500/30 flex items-center gap-2 text-sm"
             >
               <i className="fa-solid fa-trash"></i> Hapus
@@ -82,6 +82,13 @@ export default function PredictionDetailPage() {
           onReset={() => navigate('/predict')} 
         />
         
+        <ConfirmModal 
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={handleDelete}
+          title="Hapus Prediksi"
+          message="Apakah Anda yakin ingin menghapus data prediksi ini? Data yang sudah dihapus tidak dapat dipulihkan."
+        />
       </div>
     </div>
   )

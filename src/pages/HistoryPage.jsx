@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../services/api'
 import { getBurnoutBadgeClass } from '../utils/prediction'
+import ConfirmModal from '../components/common/ConfirmModal'
 
 export default function HistoryPage() {
   const [predictions, setPredictions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [deleteTargetId, setDeleteTargetId] = useState(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -21,19 +24,25 @@ export default function HistoryPage() {
     fetchHistory()
   }, [])
 
-  // Fungsi untuk hapus history tanpa masuk ke detail
-  const handleDelete = async (e, id) => {
-    e.preventDefault(); // Mencegah masuk ke halaman detail
+  // Buka modal konfirmasi hapus
+  const handleDeleteRequest = (e, id) => {
+    e.preventDefault();
     e.stopPropagation();
+    setDeleteTargetId(id);
+    setIsDeleteModalOpen(true);
+  }
 
-    if (window.confirm('Hapus riwayat prediksi ini?')) {
-      try {
-        await api.deletePrediction(id)
-        // Hapus history di tampilan secara instan setelah berhasil di backend
-        setPredictions((prev) => prev.filter(pred => pred.id !== id))
-      } catch (err) {
-        alert('Gagal menghapus prediksi.')
-      }
+  // Lakukan hapus file setelah dikonfirmasi via modal
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+    try {
+      await api.deletePrediction(deleteTargetId)
+      setPredictions((prev) => prev.filter(pred => pred.id !== deleteTargetId))
+    } catch (err) {
+      alert('Gagal menghapus prediksi.')
+    } finally {
+      setIsDeleteModalOpen(false)
+      setDeleteTargetId(null)
     }
   }
 
@@ -99,7 +108,7 @@ export default function HistoryPage() {
                     {/* Tombol Hapus tampil di kanan menggunakan FontAwesome */}
                     {pred.id && (
                       <button
-                        onClick={(e) => handleDelete(e, pred.id)}
+                        onClick={(e) => handleDeleteRequest(e, pred.id)}
                         className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white dark:hover:bg-red-600 transition-colors z-10"
                         title="Hapus riwayat"
                       >
@@ -128,6 +137,14 @@ export default function HistoryPage() {
             })}
           </div>
         )}
+        
+        <ConfirmModal 
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={confirmDelete}
+          title="Hapus Riwayat"
+          message="Apakah Anda yakin ingin menghapus data riwayat ini? Data yang sudah dihapus tidak dapat dipulihkan."
+        />
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import ConfirmModal from '../components/common/ConfirmModal'
 
 export default function ProfilePage() {
   const navigate = useNavigate()
@@ -16,6 +17,7 @@ export default function ProfilePage() {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -58,13 +60,11 @@ export default function ProfilePage() {
   }
 
   const handleDelete = async () => {
-    if (window.confirm('Apakah Anda yakin ingin menghapus akun ini secara permanen?')) {
-      const result = await deleteAccount()
-      if (!result.success) {
-        setError(result.error)
-      } else {
-        navigate('/login')
-      }
+    const result = await deleteAccount()
+    if (!result.success) {
+      setError(result.error)
+    } else {
+      navigate('/login')
     }
   }
 
@@ -180,13 +180,21 @@ export default function ProfilePage() {
           </p>
           
           <button 
-            onClick={handleDelete}
+            onClick={() => setIsDeleteModalOpen(true)}
             className="bg-red-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-red-700 transition-all shadow-sm flex items-center gap-2"
           >
             <i className="fa-solid fa-trash-can"></i>
             Hapus Akun Permanen
           </button>
         </div>
+
+        <ConfirmModal 
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={handleDelete}
+          title="Hapus Akun Permanen"
+          message="Apakah Anda yakin ingin menghapus akun ini secara permanen? Semua data riwayat dan profil akan hilang dan tidak dapat dipulihkan."
+        />
 
       </div>
     </div>
