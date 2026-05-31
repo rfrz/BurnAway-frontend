@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { normalizePrediction, normalizePredictions } from '../utils/prediction';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
@@ -45,9 +46,9 @@ const apiService = {
   deleteAccount: () => api.delete('/users/me'),
   
   // Predictions
-  createPrediction: (metrics) => api.post('/users/me/predictions', metrics),
-  listPredictions: () => api.get('/users/me/predictions'),
-  getPrediction: (id) => api.get(`/users/me/predictions/${id}`),
+  createPrediction: async (metrics) => normalizePrediction(await api.post('/users/me/predictions', metrics)),
+  listPredictions: async () => normalizePredictions(await api.get('/users/me/predictions')),
+  getPrediction: async (id) => normalizePrediction(await api.get(`/users/me/predictions/${id}`)),
   deletePrediction: (id) => api.delete(`/users/me/predictions/${id}`)
 };
 

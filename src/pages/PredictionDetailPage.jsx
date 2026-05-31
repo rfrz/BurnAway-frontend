@@ -14,14 +14,7 @@ export default function PredictionDetailPage() {
     const fetchDetail = async () => {
       try {
         const data = await api.getPrediction(id)
-        // Transform data into the format expected by ResultCard
-        setPrediction({
-          ...data,
-          prediction: {
-            burnout_level: data.burnout_level,
-            confidence: 1 // Dummy confidence
-          }
-        })
+        setPrediction(data)
       } catch (err) {
         setError('Detail prediksi tidak ditemukan.')
       } finally {

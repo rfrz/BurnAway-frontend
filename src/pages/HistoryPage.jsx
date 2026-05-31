@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../services/api'
+import { getBurnoutBadgeClass } from '../utils/prediction'
 
 export default function HistoryPage() {
   const [predictions, setPredictions] = useState([])
@@ -19,14 +20,6 @@ export default function HistoryPage() {
     }
     fetchHistory()
   }, [])
-
-  const getBadgeColor = (level) => {
-    switch (level?.toLowerCase()) {
-      case 'high': return 'bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-400 border-red-200 dark:border-red-500/30';
-      case 'moderate': return 'bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 border-amber-200 dark:border-amber-500/30';
-      default: return 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30';
-    }
-  }
 
   return (
     <div className="w-full min-h-screen py-8 px-4 sm:px-6 md:px-8 transition-colors duration-300">
@@ -60,30 +53,45 @@ export default function HistoryPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
-            {predictions.map(pred => (
-              <Link 
-                key={pred.id} 
-                to={`/history/${pred.id}`}
-                className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group"
-              >
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className={`text-xs font-bold px-3 py-1 rounded-full border ${getBadgeColor(pred.burnout_level)}`}>
-                      {pred.burnout_level?.toUpperCase() || 'UNKNOWN'}
-                    </span>
-                    <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                      {new Date(pred.created_at).toLocaleDateString('id-ID', {
-                        day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
-                      })}
-                    </span>
+            {predictions.map((pred, index) => {
+              const content = (
+                <>
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className={`text-xs font-bold px-3 py-1 rounded-full border ${getBurnoutBadgeClass(pred.burnout_level)}`}>
+                        {pred.burnout_level?.toUpperCase() || 'UNKNOWN'}
+                      </span>
+                      <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                        {pred.created_at ? new Date(pred.created_at).toLocaleDateString('id-ID', {
+                          day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                        }) : 'Tanggal tidak tersedia'}
+                      </span>
+                    </div>
+                    <p className="text-slate-900 dark:text-white font-semibold">Tingkat Stres: {pred.stress_level}/10</p>
+                    {!pred.id && (
+                      <p className="text-xs text-red-500 dark:text-red-400 mt-2 font-semibold">
+                        ID prediksi tidak tersedia.
+                      </p>
+                    )}
                   </div>
-                  <p className="text-slate-900 dark:text-white font-semibold">Tingkat Stres: {pred.stress_level}/10</p>
+                  <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-700/50 flex items-center justify-center text-slate-400 group-hover:bg-brand group-hover:text-white transition-colors">
+                    <i className={`fa-solid ${pred.id ? 'fa-chevron-right' : 'fa-circle-info'}`}></i>
+                  </div>
+                </>
+              )
+
+              const className = "bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group"
+
+              return pred.id ? (
+                <Link key={pred.id} to={`/history/${pred.id}`} className={`${className} hover:shadow-md`}>
+                  {content}
+                </Link>
+              ) : (
+                <div key={`missing-id-${index}`} className={`${className} opacity-80`}>
+                  {content}
                 </div>
-                <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-700/50 flex items-center justify-center text-slate-400 group-hover:bg-brand group-hover:text-white transition-colors">
-                  <i className="fa-solid fa-chevron-right"></i>
-                </div>
-              </Link>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>

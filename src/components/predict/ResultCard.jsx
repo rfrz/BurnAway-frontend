@@ -1,10 +1,13 @@
-export default function ResultCard({ data, onReset }) {
-  if (!data) return null
+import { normalizePrediction } from '../../utils/prediction'
 
-  // Backend returns: { id, burnout_level, stress_level, advice, ... }
-  // Provide fallback just in case
-  const level = data.burnout_level || "Unknown"
-  const advice = data.advice || "Saran tidak tersedia."
+export default function ResultCard({ data, onReset }) {
+  const normalizedData = normalizePrediction(data)
+  if (!normalizedData) return null
+
+  const level = normalizedData.burnout_level || "Unknown"
+  const confidence = normalizedData.confidence
+  const probabilities = normalizedData.probabilities
+  const advice = normalizedData.advice || "Saran tidak tersedia."
   
   // Konfigurasi tampilan berdasarkan tingkat burnout
   const getStyleConfigs = (level) => {
@@ -69,6 +72,36 @@ export default function ResultCard({ data, onReset }) {
         </div>
 
         {/* Saran AI / Detail */}
+        {(confidence != null || probabilities) && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            {confidence != null && (
+              <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-5 border border-black/5 dark:border-white/5 shadow-sm">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
+                  Confidence
+                </p>
+                <p className="text-2xl font-black text-slate-900 dark:text-white">
+                  {(Number(confidence) * 100).toFixed(1)}%
+                </p>
+              </div>
+            )}
+            {probabilities && (
+              <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-5 border border-black/5 dark:border-white/5 shadow-sm">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                  Probabilitas
+                </p>
+                <div className="space-y-1">
+                  {Object.entries(probabilities).map(([label, value]) => (
+                    <div key={label} className="flex justify-between text-sm font-semibold text-slate-700 dark:text-slate-300">
+                      <span>{label}</span>
+                      <span>{(Number(value) * 100).toFixed(1)}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-6 border border-black/5 dark:border-white/5 shadow-sm">
           <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
             <i className="fa-solid fa-wand-magic-sparkles text-brand"></i>

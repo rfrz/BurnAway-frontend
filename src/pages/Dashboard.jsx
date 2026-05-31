@@ -63,7 +63,7 @@ export default function Dashboard() {
           />
           <StatCard 
             title="Tingkat Stres Saat Ini" 
-            value={latestPrediction?.stress_level ? `${latestPrediction.stress_level}/10` : 'N/A'} 
+            value={latestPrediction?.stress_level != null ? `${latestPrediction.stress_level}/10` : 'N/A'} 
             icon="fa-heart-pulse" 
             colorClass="bg-brand" 
           />
@@ -78,7 +78,7 @@ export default function Dashboard() {
             {/* Charts Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <TrendChart data={predictions} />
-              <CategoryChart />
+              <CategoryChart prediction={latestPrediction} />
             </div>
           </div>
 
