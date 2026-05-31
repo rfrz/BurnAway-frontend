@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext.jsx'
 import { useAuth } from '../contexts/AuthContext.jsx'
 import ThemeToggle from './ThemeToggle.jsx'
@@ -6,6 +7,24 @@ import ThemeToggle from './ThemeToggle.jsx'
 export default function Navbar() {
   const { t, changeLanguage, language } = useLanguage()
   const { isAuthenticated, logout } = useAuth()
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false)
+  const languageMenuRef = useRef(null)
+
+  const languages = [
+    { value: 'en', label: 'EN' },
+    { value: 'id', label: 'ID' },
+  ]
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target)) {
+        setIsLanguageOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   return (
     <nav className="flex justify-between items-center h-20 px-6 w-full max-w-7xl mx-auto">
@@ -35,14 +54,44 @@ export default function Navbar() {
         {/* Tombol Tema & Bahasa ditaruh di sini agar tidak ikut tersembunyi */}
         <ThemeToggle />
 
-        <select 
-          value={language} 
-          onChange={(e) => changeLanguage(e.target.value)}
-          className="border border-slate-300 dark:border-slate-700 rounded-lg py-1.5 px-2 bg-transparent text-sm font-semibold text-slate-700 dark:text-slate-300 cursor-pointer outline-none"
-        >
-          <option value="en">EN</option>
-          <option value="id">ID</option>
-        </select>
+        <div className="relative" ref={languageMenuRef}>
+          <button
+            type="button"
+            onClick={() => setIsLanguageOpen((open) => !open)}
+            className="h-10 px-1.5 flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-[#23b1f5] dark:text-slate-300 dark:hover:text-[#23b1f5] transition-colors cursor-pointer"
+            aria-haspopup="listbox"
+            aria-expanded={isLanguageOpen}
+            title="Switch language"
+          >
+            <i className="fa-solid fa-globe text-base"></i>
+            <span>{language.toUpperCase()}</span>
+            <i className={`fa-solid fa-chevron-down text-[10px] transition-transform ${isLanguageOpen ? 'rotate-180' : ''}`}></i>
+          </button>
+
+          {isLanguageOpen && (
+            <div className="absolute right-0 top-full mt-2 min-w-24 overflow-hidden rounded-xl bg-white/95 py-1 shadow-xl shadow-slate-900/10 backdrop-blur-md dark:bg-slate-900/95 dark:shadow-black/30 z-50">
+              {languages.map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  onClick={() => {
+                    changeLanguage(item.value)
+                    setIsLanguageOpen(false)
+                  }}
+                  className={`w-full px-4 py-2 text-left text-sm font-semibold transition-colors ${
+                    language === item.value
+                      ? 'bg-[#23b1f5]/10 text-[#23b1f5]'
+                      : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                  }`}
+                  role="option"
+                  aria-selected={language === item.value}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Tombol Masuk & Daftar */}
         {isAuthenticated ? (
