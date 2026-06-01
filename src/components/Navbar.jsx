@@ -166,8 +166,8 @@ export default function Navbar() {
         </button>
 
         <div 
-          className={`absolute top-24 right-4 w-64 p-5 rounded-2xl bg-white/80 dark:bg-[#0f172a]/80 backdrop-blur-md shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-4 z-50 origin-top-right transition-all duration-300 ease-in-out ${
-            isMobileMenuOpen ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'
+          className={`absolute top-20 left-0 right-0 w-full px-6 py-5 bg-white/80 dark:bg-[#0f172a]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex flex-col gap-4 z-50 origin-top transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'opacity-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 -translate-y-2 invisible pointer-events-none'
           }`}
         >
           <div className="flex flex-col gap-4 pb-4 border-b border-slate-200/50 dark:border-slate-700/50">
