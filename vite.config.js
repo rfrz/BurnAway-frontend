@@ -15,9 +15,10 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://host.docker.internal:3000',
+        target: '/api',
         changeOrigin: true,
       }
     }
-  }
+  },
+  base: '/BurnAway-frontend/'
 })
