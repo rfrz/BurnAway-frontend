@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth.js';
 import { useLanguage } from '../hooks/useLanguage.js';
 import { useTheme } from '../hooks/useTheme.js';
 
-export default function DashboardLayout() {
+export default function DashboardLayout({ children }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
@@ -91,7 +91,7 @@ export default function DashboardLayout() {
         {/* Sidebar Menu */}
         <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-2 custom-scrollbar">
           {navItems.map((item) => {
-            const isActive = location.pathname.startsWith(item.path);
+            const isActive = children ? false : location.pathname.startsWith(item.path);
             return (
               <Link
                 key={item.path}
@@ -246,7 +246,7 @@ export default function DashboardLayout() {
 
         {/* Content Area with scroll */}
         <div className="flex-1 overflow-y-auto custom-scrollbar relative">
-          <Outlet />
+          {children || <Outlet />}
         </div>
       </main>
 
