@@ -166,7 +166,7 @@ export default function Navbar() {
         </button>
 
         <div 
-          className={`absolute top-20 left-0 right-0 w-full px-6 py-5 bg-white/80 dark:bg-[#0f172a]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex flex-col gap-4 z-50 origin-top transition-all duration-300 ease-in-out ${
+          className={`absolute top-20 left-0 right-0 w-full px-6 py-5 bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-3xl border-b border-slate-200 dark:border-slate-800 flex flex-col gap-4 z-50 origin-top transition-all duration-300 ease-in-out ${
             isMobileMenuOpen ? 'opacity-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 -translate-y-2 invisible pointer-events-none'
           }`}
         >
