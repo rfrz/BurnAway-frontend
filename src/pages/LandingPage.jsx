@@ -18,6 +18,11 @@ export default function LandingPage() {
     t('landing.steps.recovery')
   ]
 
+  const handleScroll = (e, id) => {
+    e.preventDefault()
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     // Pembungkus utama halaman
     <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] transition-colors duration-300 flex flex-col">
@@ -49,9 +54,12 @@ export default function LandingPage() {
                   {t('landing.cta_button')}
                 </Link>
               )}
-              <a href="#how" className="border border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all">
+              <button 
+                onClick={(e) => handleScroll(e, 'how')} 
+                className="border border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all cursor-pointer"
+              >
                 {t('landing.how_button')}
-              </a>
+              </button>
             </div>
           </div>
 
