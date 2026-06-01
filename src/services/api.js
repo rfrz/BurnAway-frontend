@@ -1,8 +1,21 @@
 import axios from 'axios';
 import { normalizePrediction, normalizePredictions } from '../utils/prediction';
 
+const getBaseURL = () => {
+  let url = import.meta.env.VITE_API_URL || '/api';
+  // Remove trailing slash if exists
+  if (url.endsWith('/')) {
+    url = url.slice(0, -1);
+  }
+  // Append /api if not already there and url is not exactly '/api'
+  if (url !== '/api' && !url.endsWith('/api')) {
+    url += '/api';
+  }
+  return url;
+};
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json'
   }
