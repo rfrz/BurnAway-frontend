@@ -17,7 +17,7 @@ export default function AuthPage() {
       {/* Logo Link to Home */}
       <Link to="/" className="flex items-center gap-3 mb-8 hover:scale-105 transition-transform" aria-label="BurnAway home">
         <img
-          src="/assets/logo-burnaway.png"
+          src={`${import.meta.env.BASE_URL}assets/logo-burnaway.png`}
           alt="BurnAway"
           className="w-12 h-12 md:w-14 md:h-14 object-contain shrink-0 drop-shadow-lg"
         />

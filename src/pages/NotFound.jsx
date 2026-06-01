@@ -11,7 +11,7 @@ export default function NotFound() {
       <div className="relative mb-8">
         <div className="absolute inset-0 bg-[#23b1f5]/20 blur-3xl rounded-full"></div>
         <img 
-          src="/assets/logo-burnaway.png" 
+          src={`${import.meta.env.BASE_URL}assets/logo-burnaway.png`} 
           alt="BurnAway Logo" 
           className="relative w-32 h-32 object-contain drop-shadow-xl animate-pulse" 
         />

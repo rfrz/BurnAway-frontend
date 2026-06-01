@@ -62,7 +62,7 @@ export default function DashboardLayout({ children }) {
           {!isCollapsed && (
             <Link to="/" className="flex items-center gap-3 overflow-hidden">
               <img
-                src="/assets/logo-burnaway.png"
+                src={`${import.meta.env.BASE_URL}assets/logo-burnaway.png`}
                 alt="BurnAway"
                 className="w-10 h-10 object-contain shrink-0"
               />
@@ -234,7 +234,7 @@ export default function DashboardLayout({ children }) {
 
           <Link to="/" className="flex items-center gap-2 min-w-0 overflow-hidden">
             <img
-              src="/assets/logo-burnaway.png"
+              src={`${import.meta.env.BASE_URL}assets/logo-burnaway.png`}
               alt="BurnAway"
               className="w-8 h-8 object-contain shrink-0"
             />

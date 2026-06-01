@@ -58,7 +58,7 @@ export default function LandingPage() {
           <div className="relative flex justify-center lg:justify-end">
             <div className="absolute inset-8 bg-[#98deff]/40 dark:bg-[#23b1f5]/10 blur-3xl rounded-full"></div>
             <img
-              src="/assets/hero illustration.svg"
+              src={`${import.meta.env.BASE_URL}assets/hero illustration.svg`}
               alt="BurnAway hero illustration"
               className="relative w-full max-w-[21rem] lg:max-w-[27rem] object-contain drop-shadow-2xl"
             />
@@ -103,7 +103,7 @@ export default function LandingPage() {
       <section id="about" className="py-24 px-6">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-16 items-center">
           <img 
-            src="/assets/logo-burnaway.png" 
+            src={`${import.meta.env.BASE_URL}assets/logo-burnaway.png`} 
             alt="BurnAway Logo" 
             className="w-64 h-64 object-contain shrink-0 transition-all duration-300" 
           />

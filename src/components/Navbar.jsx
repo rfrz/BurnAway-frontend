@@ -32,7 +32,7 @@ export default function Navbar() {
       {/* KIRI: Logo */}
       <Link to="/" className="flex items-center gap-3 group" aria-label="BurnAway home">
         <img
-          src="/assets/logo-burnaway.png"
+          src={`${import.meta.env.BASE_URL}assets/logo-burnaway.png`}
           alt="BurnAway"
           className="w-10 h-10 object-contain shrink-0 drop-shadow-sm"
         />
