@@ -55,7 +55,7 @@
       "predictive_desc": "Predict burnout risk from sleep, stress, and work habit trends.",
       "privacy_title": "Privacy First",
       "privacy_desc": "Your mental health data stays under your control.",
-      "recovery_title": "Instant Recovery",
+      "recovery_title": "Continous Recovery",
       "recovery_desc": "Small interventions you can do quickly to help your body and mind recover."
     },
     "how_title": "How BurnAway Works",
@@ -160,13 +160,12 @@
   "profile": {
     "title": "Profile Settings",
     "basic_info": "Basic Information",
-    "email_locked": "Email cannot be changed.",
     "birth_date": "Birth Date",
     "experience_years": "Experience (Years)",
     "save": "Save Changes",
     "success": "Profile updated successfully!",
     "save_error": "An error occurred while saving your profile.",
-    "danger_title": "Danger Zone",
+    "danger_title": "Account deletion",
     "danger_desc": "Deleting your account will permanently delete all prediction history and personal data. This action cannot be undone.",
     "delete_account": "Delete Account Permanently",
     "delete_modal_title": "Delete Account Permanently",

@@ -161,10 +161,10 @@ export default function ProfilePage() {
                 type="email" 
                 name="email"
                 value={visibleFormData.email}
-                disabled
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-slate-500 cursor-not-allowed outline-none"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand dark:focus:ring-brand/50 outline-none transition-all"
               />
-              <p className="text-xs text-slate-400 mt-1">{t('profile.email_locked')}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
