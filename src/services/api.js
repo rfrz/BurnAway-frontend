@@ -26,7 +26,9 @@ api.interceptors.response.use((response) => {
 }, (error) => {
   if (error.response?.status === 401) {
     localStorage.removeItem('burnaway_token');
-    window.location.href = '/login';
+    if (window.location.pathname !== '/login' && window.location.pathname !== '/register' && window.location.pathname !== '/') {
+      window.location.href = '/login';
+    }
   }
   
   // Extract custom error message from backend if available

@@ -74,8 +74,8 @@ export default function RegisterForm() {
     <form onSubmit={handleRegister} className="flex flex-col gap-5 mt-6">
       
       {error && (
-        <div className="alert-banner alert-error animate-fade-in">
-          <i className="fa-solid fa-circle-exclamation"></i>
+        <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 p-4 rounded-xl flex items-center gap-3 animate-fade-in text-sm font-medium">
+          <i className="fa-solid fa-circle-exclamation text-lg"></i>
           {error}
         </div>
       )}
