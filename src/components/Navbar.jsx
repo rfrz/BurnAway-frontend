@@ -8,7 +8,7 @@ import ThemeToggle from './ThemeToggle.jsx'
 export default function Navbar() {
   const { t, changeLanguage, language } = useLanguage()
   const { isAuthenticated, logout } = useAuth()
-  const { theme } = useTheme()
+  const { theme, toggleTheme } = useTheme()
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const languageMenuRef = useRef(null)
@@ -33,6 +33,12 @@ export default function Navbar() {
     if (theme === 'light') return t('theme.light');
     if (theme === 'dark') return t('theme.dark');
     return t('theme.system');
+  }
+
+  const getThemeIcon = () => {
+    if (theme === 'light') return 'fa-sun';
+    if (theme === 'dark') return 'fa-moon';
+    return 'fa-desktop';
   }
 
   const languages = [
@@ -160,17 +166,22 @@ export default function Navbar() {
         </button>
 
         {isMobileMenuOpen && (
-          <div className="absolute top-20 right-4 w-64 p-5 rounded-2xl bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-4 z-50">
+          <div className="absolute top-20 right-4 w-64 p-5 rounded-2xl bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-2xl border border-white/40 dark:border-white/10 flex flex-col gap-4 z-50">
             <div className="flex flex-col gap-4 pb-4 border-b border-slate-200/50 dark:border-slate-700/50">
               <button onClick={(e) => handleScroll(e, 'features')} className="text-left font-semibold text-slate-700 dark:text-slate-200 hover:text-brand transition-colors">{t('nav.features')}</button>
               <button onClick={(e) => handleScroll(e, 'how')} className="text-left font-semibold text-slate-700 dark:text-slate-200 hover:text-brand transition-colors">{t('nav.how')}</button>
               <button onClick={(e) => handleScroll(e, 'about')} className="text-left font-semibold text-slate-700 dark:text-slate-200 hover:text-brand transition-colors">{t('nav.about')}</button>
             </div>
 
-            <div className="flex items-center justify-between py-2 border-b border-slate-200/50 dark:border-slate-700/50">
-              <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm">{getThemeName()}</span>
-              <ThemeToggle />
-            </div>
+            <button 
+              onClick={toggleTheme}
+              className="flex items-center justify-between py-2 border-b border-slate-200/50 dark:border-slate-700/50 w-full text-left group cursor-pointer"
+            >
+              <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm group-hover:text-brand transition-colors">{getThemeName()}</span>
+              <div className="w-10 h-10 flex items-center justify-center">
+                <i className={`fa-solid ${getThemeIcon()} text-lg text-slate-700 dark:text-slate-300 group-hover:text-[#23b1f5] transition-colors`}></i>
+              </div>
+            </button>
 
             <div className="flex flex-col gap-2 pb-4 border-b border-slate-200/50 dark:border-slate-700/50">
               <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm">{t('common.language_title')}</span>
