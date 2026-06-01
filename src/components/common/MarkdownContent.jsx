@@ -86,11 +86,13 @@ const parseBlocks = (text) => {
       continue
     }
 
-    if (/^\d+\.\s+/.test(line)) {
-      const { items, nextIndex } = collectList(lines.map((item) => item.trim()), index, true)
-      blocks.push({ type: 'list', ordered: true, items })
-      index = nextIndex
-      continue
+    const orderedMatch = line.match(/^(\d+)\.\s+/);
+    if (orderedMatch) {
+      const startNum = parseInt(orderedMatch[1], 10);
+      const { items, nextIndex } = collectList(lines.map((item) => item.trim()), index, true);
+      blocks.push({ type: 'list', ordered: true, start: startNum, items });
+      index = nextIndex;
+      continue;
     }
 
     if (/^>\s+/.test(line)) {
@@ -134,7 +136,11 @@ export default function MarkdownContent({ text, fallback = '', compact = false, 
         if (block.type === 'list') {
           const Tag = block.ordered ? 'ol' : 'ul'
           return (
-            <Tag key={index} className={`${block.ordered ? 'list-decimal' : 'list-disc'} space-y-2 pl-5`}>
+            <Tag 
+              key={index} 
+              start={block.ordered ? block.start : undefined}
+              className={`${block.ordered ? 'list-decimal' : 'list-disc'} space-y-2 pl-5`}
+            >
               {block.items.map((item, itemIndex) => (
                 <li key={itemIndex} className="pl-1">
                   {parseInline(item)}
