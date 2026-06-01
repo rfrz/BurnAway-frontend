@@ -61,14 +61,14 @@
     "how_title": "Cara BurnAway Bekerja",
     "steps": {
       "metrics": "Catat Metrik Harian",
-      "analysis": "Analisis Sinyal AI",
-      "prediction": "Prediksi Burnout",
-      "recovery": "Panduan Pemulihan"
+      "analysis": "Dapatkan Prediksi Risiko Burnout",
+      "prediction": "Pantau Tren & Riwayat Stres",
+      "recovery": "Dapatkan Saran Pemulihan"
     },
-    "about_title": "Menjembatani Data & Kemanusiaan",
-    "about_body": "BurnAway lahir dari kebutuhan akan sistem pendukung performa yang berkelanjutan.",
-    "about_team": "Tim Pendiri BurnAway",
-    "footer": "2026 BurnAway Project. Kecerdasan empatik untuk performa berkelanjutan."
+    "about_title": "Tentang BurnAway",
+    "about_body": "Kami menyadari bahwa di balik baris kode yang rumit dan pesatnya perkembangan teknologi, ada manusia yang kesehatannya sering terabaikan. Kami membangun BurnAway karena kami percaya bahwa inovasi teknologi yang berkelanjutan tidak boleh dibayar dengan kesehatan mental para pengembangnya.",
+    "about_team": "CC26-PSU237",
+    "footer": "2026 BurnAway Project. DBS Foundation x Dicoding Coding Camp 2026"
   },
   "auth": {
     "email": "Email",

@@ -91,9 +91,8 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-4 gap-12 text-center">
             {steps.map((step, i) => (
               <div key={i} className="relative">
-                <div className="text-8xl font-black opacity-20 mb-4">0{i+1}</div>
+                <div className="text-8xl font-black opacity-40 mb-4">0{i+1}</div>
                 <h3 className="text-xl font-bold mb-2">{step}</h3>
-                <div className="h-1 w-12 bg-white dark:bg-slate-950 mx-auto rounded-full"></div>
               </div>
             ))}
           </div>
@@ -103,18 +102,11 @@ export default function LandingPage() {
       {/* 5. About Us */}
       <section id="about" className="py-24 px-6">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-16 items-center">
-         <div className="w-64 h-64 rounded-full border-8 border-[#23b1f5] dark:border-[#23b1f5]/20 shadow-xl shadow-[#98deff]/40 dark:shadow-none overflow-hidden shrink-0 transition-all duration-300">
-         <img 
-          src="https://placehold.co/400x400/f8fafc/23b1f5?text=Team" 
-          alt="About" 
-          className="w-full h-full object-cover dark:hidden" 
-         />
-         <img 
-            src="https://placehold.co/400x400/1e293b/23b1f5?text=Team" 
-            alt="About" 
-            className="w-full h-full object-cover hidden dark:block" 
-         />
-        </div>
+          <img 
+            src="/assets/logo-burnaway.png" 
+            alt="BurnAway Logo" 
+            className="w-64 h-64 object-contain shrink-0 transition-all duration-300" 
+          />
           <div>
             <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">{t('landing.about_title')}</h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">

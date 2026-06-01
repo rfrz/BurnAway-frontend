@@ -61,14 +61,14 @@
     "how_title": "How BurnAway Works",
     "steps": {
       "metrics": "Log Daily Metrics",
-      "analysis": "AI Signal Analysis",
-      "prediction": "Burnout Prediction",
-      "recovery": "Guided Recovery"
+      "analysis": "Get Burnout Risk Prediction",
+      "prediction": "Track Stress Trends & History",
+      "recovery": "Get Recovery Suggestions"
     },
-    "about_title": "Bridging Data & Humanity",
-    "about_body": "BurnAway was born from the need for a support system for sustainable performance.",
-    "about_team": "The BurnAway Founding Team",
-    "footer": "2026 BurnAway Project. Empathetic intelligence for sustainable performance."
+    "about_title": "About BurnAway",
+    "about_body": "We recognize that behind the fast-paced world of software development and cutting-edge technology, there are human beings whose well-being is often overlooked. BurnAway was created because we believe that sustainable technological innovation should not come at the cost of developers' mental health.",
+    "about_team": "CC26-PSU237",
+    "footer": "2026 BurnAway Project. DBS Foundation x Dicoding Coding Camp 2026"
   },
   "auth": {
     "email": "Email",
