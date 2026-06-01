@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../hooks/useLanguage.js'
 import { useAuth } from '../hooks/useAuth.js'
@@ -9,6 +9,20 @@ export default function Navbar() {
   const { isAuthenticated, logout } = useAuth()
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
   const languageMenuRef = useRef(null)
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const handleScroll = (e, id) => {
+    e.preventDefault()
+    if (location.pathname !== '/') {
+      navigate('/')
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   const languages = [
     { value: 'en', label: 'EN' },
@@ -43,9 +57,9 @@ export default function Navbar() {
       
       {/* TENGAH: Tautan Teks (Hanya muncul di layar laptop/lebar) */}
       <div className="hidden md:flex gap-8 items-center text-sm font-medium">
-        <a href="#features" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">{t('nav.features')}</a>
-        <a href="#how" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">{t('nav.how')}</a>
-        <a href="#about" className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">{t('nav.about')}</a>
+        <button onClick={(e) => handleScroll(e, 'features')} className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">{t('nav.features')}</button>
+        <button onClick={(e) => handleScroll(e, 'how')} className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">{t('nav.how')}</button>
+        <button onClick={(e) => handleScroll(e, 'about')} className="hover:text-brand transition-colors text-slate-600 dark:text-slate-300">{t('nav.about')}</button>
       </div>
 
       {/* KANAN: Pengaturan & Auth (SELALU MUNCUL di semua ukuran layar) */}
