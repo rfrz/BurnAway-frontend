@@ -2,11 +2,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../hooks/useLanguage.js'
 import { useAuth } from '../hooks/useAuth.js'
+import { useTheme } from '../hooks/useTheme.js'
 import ThemeToggle from './ThemeToggle.jsx'
 
 export default function Navbar() {
   const { t, changeLanguage, language } = useLanguage()
   const { isAuthenticated, logout } = useAuth()
+  const { theme } = useTheme()
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const languageMenuRef = useRef(null)
@@ -25,6 +27,12 @@ export default function Navbar() {
     } else {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
     }
+  }
+
+  const getThemeName = () => {
+    if (theme === 'light') return t('theme.light');
+    if (theme === 'dark') return t('theme.dark');
+    return t('theme.system');
   }
 
   const languages = [
@@ -152,7 +160,7 @@ export default function Navbar() {
         </button>
 
         {isMobileMenuOpen && (
-          <div className="absolute top-20 right-4 w-64 p-5 rounded-2xl bg-white/80 dark:bg-[#0f172a]/80 backdrop-blur-md shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col gap-4 z-50">
+          <div className="absolute top-20 right-4 w-64 p-5 rounded-2xl bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-4 z-50">
             <div className="flex flex-col gap-4 pb-4 border-b border-slate-200/50 dark:border-slate-700/50">
               <button onClick={(e) => handleScroll(e, 'features')} className="text-left font-semibold text-slate-700 dark:text-slate-200 hover:text-brand transition-colors">{t('nav.features')}</button>
               <button onClick={(e) => handleScroll(e, 'how')} className="text-left font-semibold text-slate-700 dark:text-slate-200 hover:text-brand transition-colors">{t('nav.how')}</button>
@@ -160,7 +168,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center justify-between py-2 border-b border-slate-200/50 dark:border-slate-700/50">
-              <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm">{t('theme.title_system')}</span>
+              <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm">{getThemeName()}</span>
               <ThemeToggle />
             </div>
 
