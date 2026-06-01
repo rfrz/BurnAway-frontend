@@ -221,9 +221,9 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+      <main className="flex-1 h-full relative overflow-hidden">
         {/* Mobile Topbar */}
-        <div className="lg:hidden h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-4 shrink-0 gap-3">
+        <div className="lg:hidden absolute top-0 left-0 right-0 h-16 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50 flex items-center px-4 z-30 gap-3">
           <button 
             className="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 shrink-0"
             onClick={() => setIsMobileOpen(true)}
@@ -245,7 +245,7 @@ export default function DashboardLayout({ children }) {
         </div>
 
         {/* Content Area with scroll */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar relative">
+        <div className="h-full overflow-y-auto custom-scrollbar pt-16 lg:pt-0 relative">
           {children || <Outlet />}
         </div>
       </main>
