@@ -49,7 +49,7 @@
     "hero_subtitle": "BurnAway helps developers monitor work patterns, stress, and recovery with empathetic analysis.",
     "cta_button": "Get Started",
     "how_button": "How it Works",
-    "features_title": "Built for Sustainable Performance",
+    "features_title": "Code for Innovation, Not for Burnout",
     "features": {
       "predictive_title": "Predictive Analysis",
       "predictive_desc": "Predict burnout risk from sleep, stress, and work habit trends.",
@@ -62,8 +62,8 @@
     "steps": {
       "metrics": "Log Daily Metrics",
       "analysis": "Get Burnout Risk Prediction",
-      "prediction": "Track Stress Trends & History",
-      "recovery": "Get Recovery Suggestions"
+      "recovery": "Get Recovery Suggestions",
+      "prediction": "Track Stress Trends & History"
     },
     "about_title": "About BurnAway",
     "about_body": "We recognize that behind the fast-paced world of software development and cutting-edge technology, there are human beings whose well-being is often overlooked. BurnAway was created because we believe that sustainable technological innovation should not come at the cost of developers' mental health.",

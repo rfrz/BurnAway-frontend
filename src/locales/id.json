@@ -49,7 +49,7 @@
     "hero_subtitle": "BurnAway membantu developer memantau pola kerja, stres, dan pemulihan dengan analisis yang empatik.",
     "cta_button": "Mulai Sekarang",
     "how_button": "Cara Kerja",
-    "features_title": "Dibangun untuk Performa Berkelanjutan",
+    "features_title": "Inovasi Tanpa Mengorbankan Kesejahteraan",
     "features": {
       "predictive_title": "Analisis Prediktif",
       "predictive_desc": "Prediksi risiko burnout berdasarkan tren tidur, stres, dan kebiasaan kerja.",
@@ -62,8 +62,8 @@
     "steps": {
       "metrics": "Catat Metrik Harian",
       "analysis": "Dapatkan Prediksi Risiko Burnout",
-      "prediction": "Pantau Tren & Riwayat Stres",
-      "recovery": "Dapatkan Saran Pemulihan"
+      "recovery": "Dapatkan Saran Pemulihan",
+      "prediction": "Pantau Tren & Riwayat Stres"
     },
     "about_title": "Tentang BurnAway",
     "about_body": "Kami menyadari bahwa di balik baris kode yang rumit dan pesatnya perkembangan teknologi, ada manusia yang kesehatannya sering terabaikan. Kami membangun BurnAway karena kami percaya bahwa inovasi teknologi yang berkelanjutan tidak boleh dibayar dengan kesehatan mental para pengembangnya.",
