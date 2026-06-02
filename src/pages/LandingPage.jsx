@@ -14,8 +14,8 @@ export default function LandingPage() {
   const steps = [
     t('landing.steps.metrics'),
     t('landing.steps.analysis'),
-    t('landing.steps.prediction'),
-    t('landing.steps.recovery')
+    t('landing.steps.recovery'),
+    t('landing.steps.prediction')
   ]
 
   const handleScroll = (e, id) => {
