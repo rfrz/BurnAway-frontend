@@ -1,5 +1,7 @@
 # BurnAway Frontend
 
+## 📖 Deskripsi Singkat Proyek
+
 BurnAway is a modern, responsive web application designed to help developers monitor their mental health, predict burnout risks, and receive personalized recovery interventions. The user interface emphasizes dynamic aesthetics, ease of use, and multi-language support.
 
 ## 🚀 Tech Stack
@@ -11,13 +13,15 @@ BurnAway is a modern, responsive web application designed to help developers mon
 - **Networking**: Axios
 - **Linting & Code Quality**: ESLint
 
-## 📋 Prerequisites
+## 🛠️ Petunjuk Setup Environment
+
+### 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
 - [Node.js](https://nodejs.org/) (v18 or higher recommended)
 - (Optional) Docker for containerized development
 
-## ⚙️ Environment Variables
+### ⚙️ Environment Variables
 
 Create a `.env` file in the root of the frontend directory to configure external connections.
 
@@ -26,7 +30,7 @@ Create a `.env` file in the root of the frontend directory to configure external
 VITE_API_URL=http://localhost:3000/api
 ```
 
-## 📦 Installation
+### 📦 Installation
 
 Install the required dependencies using npm:
 
@@ -34,7 +38,7 @@ Install the required dependencies using npm:
 npm install
 ```
 
-## 🛠️ Running the Application
+## 🚀 Cara Menjalankan Aplikasi
 
 ### Development Mode (with hot-reload)
 ```bash
