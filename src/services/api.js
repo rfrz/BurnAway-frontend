@@ -39,8 +39,9 @@ api.interceptors.response.use((response) => {
 }, (error) => {
   if (error.response?.status === 401) {
     localStorage.removeItem('burnaway_token');
-    if (window.location.pathname !== '/login' && window.location.pathname !== '/register' && window.location.pathname !== '/') {
-      window.location.href = '/login';
+    // Karena menggunakan HashRouter, kita perlu mengecek dan mengubah bagian hash-nya
+    if (window.location.hash !== '#/login' && window.location.hash !== '#/register' && window.location.hash !== '#/') {
+      window.location.hash = '#/login';
     }
   }
   
